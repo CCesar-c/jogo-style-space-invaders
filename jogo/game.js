@@ -7,7 +7,7 @@ const world = engine.world;
 
 const ctx = canvas.getContext("2d");
 
-
+var valor = Number();
 
 const enemiges = [];
 var max = 0.01;
@@ -40,19 +40,21 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["s"] || keys["ArrowDown"]) Body.setPosition(player, { x: player.position.x, y: player.position.y + force });
 
     if (Math.random() <= max) {
-        var valor = Math.floor(Math.random() * 720)
+        
         const enemy = Bodies.rectangle(0, 0, 50, 50, {
             friction: 0.1,
             density: 1,
         })
 
+        valor = Math.floor(Math.random() * 1280);
+        Body.setPosition(enemy, { x: valor, y: enemy.position.y })
         World.add(world, enemy);
+        
         enemiges.push(enemy);
         console.log("enemy")
     }
     enemiges.forEach(sim => {
-        
-        Body.setPosition(sim, { x: valor, y: sim.position.y + 3 })
+        Body.setPosition(sim, { x: sim.position.x, y: sim.position.y + 3 })
     })
 });
 // Dibujar
