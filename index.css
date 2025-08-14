@@ -42,8 +42,7 @@ body div button:hover{
 }
 body pop{
     padding-top: 50px;
-    height: 100px;
-    width: 100px;
+    padding: 50px 50px;
     background-color: aqua;
     align-items: center;
     justify-content: center;
@@ -62,6 +61,6 @@ body div h1{
 }
 .active{
     transition: 0.5s;
-    transform: scale(1);
+    transform: scale(1.1);
     opacity: 1;
 }
