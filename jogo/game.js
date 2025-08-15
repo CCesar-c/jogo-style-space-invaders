@@ -1,7 +1,7 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
 const canvas = document.getElementById("canvas");
-
+var puedeShot = Boolean();
 const engine = Engine.create();
 const world = engine.world;
 
@@ -21,8 +21,10 @@ engine.world.gravity.y = 0;
 // jugador
 var force = 3;
 
-const player = Bodies.rectangle(640, 360, 100, 100, {
-    friction: 1,
+const player = Bodies.rectangle(640, 360, 50, 50, {
+    friction: 1, // deslizamiento contra objetos
+    frictionAir: 0.1, //deslizamiento en el aire
+    //frictionStatic: 0.5, // deslizamiento evitado ?
     density: 0.5,
 });
 World.add(world, [player]);
@@ -32,15 +34,28 @@ const keys = {};
 document.addEventListener("keydown", (e) => keys[e.key] = true);
 document.addEventListener("keyup", (e) => keys[e.key] = false);
 
+// disparos
+document.addEventListener("mousedown", () => {
+    puedeShot = true;
+})
+document.addEventListener("mouseup", () => {
+    puedeShot = false;
+})
+
 Events.on(engine, "beforeUpdate", () => {
-    if (keys["a"] || keys["ArrowLeft"]) Body.setPosition(player, { x: player.position.x - force, y: player.position.y });
-    if (keys["d"] || keys["ArrowRight"]) Body.setPosition(player, { x: player.position.x + force, y: player.position.y });
-    if (keys["w"] || keys["ArrowUp"]) Body.setPosition(player, { x: player.position.x, y: player.position.y - force });
-    if (keys["s"] || keys["ArrowDown"]) Body.setPosition(player, { x: player.position.x, y: player.position.y + force });
+    if (puedeShot) {
+        var rayo = Matter.Query.ray(enemiges, { x: player.position.x, y: player.position.y }, { x: player.position.x + 1, y: player.position.y + 1 }, 1)
+        console.log(rayo.forEach(hit =>{ hit.body}));
+    }
+    if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
+    if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +force, y: 0 });
+    if (keys["w"] || keys["ArrowUp"]) Body.setVelocity(player, { x: 0, y: -force });
+    if (keys["s"] || keys["ArrowDown"]) Body.setVelocity(player, { x: 0, y: +force });
 
     if (Math.random() <= max) {
-        
-        const enemy = Bodies.rectangle(0, 0, 50, 50, {
+
+        // enemigo
+        var enemy = Bodies.rectangle(0, 0, 50, 50, {
             friction: 1,
             density: 2,
         })
@@ -48,13 +63,14 @@ Events.on(engine, "beforeUpdate", () => {
         valor = Math.floor(Math.random() * 1280);
         Body.setPosition(enemy, { x: valor, y: enemy.position.y })
         World.add(world, enemy);
-        
+
         enemiges.push(enemy);
         console.log("enemy")
     }
     enemiges.forEach(sim => {
-        Body.setPosition(sim, { x: sim.position.x, y: sim.position.y + 3 })
+        Body.setVelocity(sim, { x: 0, y: 4 })
     })
+
 });
 // Dibujar
 (function draw() {
@@ -68,7 +84,7 @@ Events.on(engine, "beforeUpdate", () => {
 
     // Desenha jogador
     ctx.fillStyle = "blue";
-    ctx.fillRect(player.position.x - 50, player.position.y - 50, 100, 100);
+    ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
 
     requestAnimationFrame(draw);
 })();
