@@ -38,8 +38,6 @@ document.addEventListener("keyup", (e) => keys[e.key] = false);
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
-        comienzoRay = { x: player.position.x, y: player.position.y }
-        finRay = { x: player.position.x, y: player.position.y - 100 }
     }
 
 })
@@ -53,9 +51,12 @@ var comienzoRay = 0;
 // Actualizar
 Events.on(engine, "beforeUpdate", () => {
     // disparo
-    var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+    comienzoRay = { x: player.position.x, y: player.position.y }
+    finRay = { x: player.position.x, y: player.position.y - 1000 }
+
     if (puedeShot) {
-        console.log(rayo.forEach(hit => { hit.body }));
+        var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        console.log(rayo.enemiges.length);
     }
     if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
     if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +force, y: 0 });
