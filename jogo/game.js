@@ -1,6 +1,6 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-var puedeShot = Boolean();
+var puedeShot = false;
 const engine = Engine.create();
 const world = engine.world;
 
@@ -61,13 +61,18 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (puedeShot) {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
-        document.querySelector("h1").innerText = rayo.length;
+        //document.querySelector("h1").innerText = rayo.length;
         rayo.forEach(none => {
-            // eliminar enemigo
-            World.remove(world, none);
-            // Remove from enemiges array
-            const idx = enemiges.indexOf(none);
-            if (idx !== -1) enemiges.splice(idx, 1);
+            // encontrar el indice del enemigo en el array
+            // none.body es el cuerpo del enemigo
+            const indicador = enemiges.indexOf(none.body);
+            // si lo encuentra
+            if (indicador > -1) {
+                // eliminarlo del array
+                enemiges.splice(indicador, 1);
+                // eliminarlo del mundo
+                World.remove(world, none.body);
+            }
         })
         console.log(rayo.length);
     }
@@ -110,13 +115,13 @@ Events.on(engine, "beforeUpdate", () => {
     ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
 
     // Dibuja rayo
-if (puedeShot) {
+    if (puedeShot) {
         ctx.strokeStyle = "red";
         ctx.beginPath();
         ctx.moveTo(comienzoRay.x, comienzoRay.y);
         ctx.lineTo(finRay.x, finRay.y);
         ctx.stroke();
     }
-    
+
     requestAnimationFrame(draw);
 })();
