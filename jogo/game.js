@@ -7,6 +7,7 @@ const world = engine.world;
 // Configuración del canvas
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -49,7 +50,7 @@ document.addEventListener("mouseup", (event) => {
         puedeShot = false;
     }
 })
-var finRay = 0;
+var finRay = { x: 0, y: 0 };
 var comienzoRay = 0;
 // Actualizar
 Events.on(engine, "beforeUpdate", () => {
@@ -64,6 +65,9 @@ Events.on(engine, "beforeUpdate", () => {
         rayo.forEach(none => {
             // eliminar enemigo
             World.remove(world, none);
+            // Remove from enemiges array
+            const idx = enemiges.indexOf(none);
+            if (idx !== -1) enemiges.splice(idx, 1);
         })
         console.log(rayo.length);
     }
@@ -93,7 +97,7 @@ Events.on(engine, "beforeUpdate", () => {
 });
 // Dibujar
 (function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     // Desenha inimigo
     ctx.fillStyle = "red";
