@@ -61,6 +61,7 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (puedeShot) {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        document.querySelector("h1").innerText = rayo.length;
         rayo.forEach(none => {
             // eliminar enemigo
             World.remove(world, none);
