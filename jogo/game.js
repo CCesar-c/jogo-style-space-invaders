@@ -35,17 +35,28 @@ document.addEventListener("keydown", (e) => keys[e.key] = true);
 document.addEventListener("keyup", (e) => keys[e.key] = false);
 
 // disparos
-document.addEventListener("mousedown", () => {
-    puedeShot = true;
-})
-document.addEventListener("mouseup", () => {
-    puedeShot = false;
-})
+document.addEventListener("mousedown", (event) => {
+    if (event.button == 0) {
+        puedeShot = true;
+        comienzoRay = { x: player.position.x, y: player.position.y }
+        finRay = { x: player.position.x, y: player.position.y - 1000 }
+    }
 
+})
+document.addEventListener("mouseup", (event) => {
+    if (event.button == 0) {
+        puedeShot = false;
+    }
+})
+var finRay = 0;
+var comienzoRay = 0;
+// Actualizar
 Events.on(engine, "beforeUpdate", () => {
+    // disparo
+
     if (puedeShot) {
-        var rayo = Matter.Query.ray(enemiges, { x: player.position.x, y: player.position.y }, { x: player.position.x + 1, y: player.position.y + 1 }, 1)
-        console.log(rayo.forEach(hit =>{ hit.body}));
+        var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        console.log(rayo.forEach(hit => { hit.body }));
     }
     if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
     if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +force, y: 0 });
@@ -59,7 +70,6 @@ Events.on(engine, "beforeUpdate", () => {
             friction: 1,
             density: 2,
         })
-
         valor = Math.floor(Math.random() * 1280);
         Body.setPosition(enemy, { x: valor, y: enemy.position.y })
         World.add(world, enemy);
@@ -85,6 +95,14 @@ Events.on(engine, "beforeUpdate", () => {
     // Desenha jogador
     ctx.fillStyle = "blue";
     ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
+
+    // Dibuja rayo
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(comienzoRay.x, comienzoRay.y);
+    ctx.lineTo(finRay.x, finRay.y);
+    ctx.stroke();
 
     requestAnimationFrame(draw);
 })();
