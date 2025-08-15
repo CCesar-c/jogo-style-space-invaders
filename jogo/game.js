@@ -56,7 +56,7 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (puedeShot) {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
-        console.log(rayo.enemiges.length);
+        console.log(rayo.length);
     }
     if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
     if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +force, y: 0 });
