@@ -1,11 +1,15 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-const canvas = document.getElementById("canvas");
+
 var puedeShot = Boolean();
 const engine = Engine.create();
 const world = engine.world;
 
+// Configuración del canvas
+const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 var valor = Number();
 
@@ -50,12 +54,17 @@ var finRay = 0;
 var comienzoRay = 0;
 // Actualizar
 Events.on(engine, "beforeUpdate", () => {
+
     // disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
     finRay = { x: player.position.x, y: player.position.y - 1000 }
 
     if (puedeShot) {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        rayo.forEach(none => {
+            // eliminar enemigo
+            World.remove(world, none);
+        })
         console.log(rayo.length);
     }
     if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
@@ -97,12 +106,13 @@ Events.on(engine, "beforeUpdate", () => {
     ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
 
     // Dibuja rayo
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(comienzoRay.x, comienzoRay.y);
-    ctx.lineTo(finRay.x, finRay.y);
-    ctx.stroke();
-
+if (puedeShot) {
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(comienzoRay.x, comienzoRay.y);
+        ctx.lineTo(finRay.x, finRay.y);
+        ctx.stroke();
+    }
+    
     requestAnimationFrame(draw);
 })();
