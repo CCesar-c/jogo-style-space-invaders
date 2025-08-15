@@ -1,6 +1,5 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-
 var puedeShot = Boolean();
 const engine = Engine.create();
 const world = engine.world;
