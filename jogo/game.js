@@ -1,6 +1,6 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-const canvas = document.getElementById("game");
+const canvas = document.getElementById("canvas");
 
 const engine = Engine.create();
 const world = engine.world;
@@ -11,6 +11,7 @@ var valor = Number();
 
 const enemiges = [];
 var max = 0.01;
+
 // Iniciar motor
 const runner = Runner.create();
 Runner.run(runner, engine);
@@ -21,8 +22,8 @@ engine.world.gravity.y = 0;
 var force = 3;
 
 const player = Bodies.rectangle(640, 360, 100, 100, {
-    friction: 0.5,
-    density: 1,
+    friction: 1,
+    density: 0.5,
 });
 World.add(world, [player]);
 
@@ -32,8 +33,6 @@ document.addEventListener("keydown", (e) => keys[e.key] = true);
 document.addEventListener("keyup", (e) => keys[e.key] = false);
 
 Events.on(engine, "beforeUpdate", () => {
-    
-
     if (keys["a"] || keys["ArrowLeft"]) Body.setPosition(player, { x: player.position.x - force, y: player.position.y });
     if (keys["d"] || keys["ArrowRight"]) Body.setPosition(player, { x: player.position.x + force, y: player.position.y });
     if (keys["w"] || keys["ArrowUp"]) Body.setPosition(player, { x: player.position.x, y: player.position.y - force });
@@ -42,8 +41,8 @@ Events.on(engine, "beforeUpdate", () => {
     if (Math.random() <= max) {
         
         const enemy = Bodies.rectangle(0, 0, 50, 50, {
-            friction: 0.1,
-            density: 1,
+            friction: 1,
+            density: 2,
         })
 
         valor = Math.floor(Math.random() * 1280);
