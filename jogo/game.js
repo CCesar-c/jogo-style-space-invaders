@@ -39,14 +39,14 @@ document.addEventListener("keydown", (e) => keys[e.key] = true);
 document.addEventListener("keyup", (e) => keys[e.key] = false);
 
 // disparos
-document.addEventListener("mousedown", (event) => {
-    if (event.button == 0) {
+document.addEventListener("keydown", (event) => {
+    if (event.button == "Space" || event.key == " ") {
         puedeShot = true;
     }
 
 })
-document.addEventListener("mouseup", (event) => {
-    if (event.button == 0) {
+document.addEventListener("keyup", (event) => {
+    if (event.button == "Space" || event.key == " ") {
         puedeShot = false;
     }
 })
