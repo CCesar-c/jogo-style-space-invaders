@@ -78,7 +78,7 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (Math.random() <= max) {
 
-        // enemigo
+        // inimigo
         var enemy = Bodies.rectangle(0, 0, 50, 50, {
             friction: 1,
             density: 2,
@@ -95,21 +95,21 @@ Events.on(engine, "beforeUpdate", () => {
     })
 
 });
-// Dibujar
+// Desenhar
 (function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Desenha inimigo
+    // Desenhar inimigo
     ctx.fillStyle = "red";
     enemiges.forEach(none => {
         ctx.fillRect(none.position.x - 25, none.position.y - 25, 50, 50);
     })
 
-    // Desenha jogador
+    // Desenhar jogador
     ctx.fillStyle = "blue";
     ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
 
-    // Dibuja rayo
+    // Desenhar Tiro
 if (puedeShot) {
         ctx.strokeStyle = "red";
         ctx.beginPath();
