@@ -28,10 +28,10 @@ body div button{
     background-color: rgba(103, 139, 248, 0.253);
     margin-top: 10px;
     padding: 10px 20px;
-    height: 50px;
-    width: 100px;
+    height: 80px;
+    width: 130px;
     border-radius: 20px;
-    font-size: 15px;
+    font-size: 20px;
 }
 body div button:hover{  
     border-radius: 10px;
@@ -41,6 +41,7 @@ body div button:hover{
     cursor: pointer;
     color: rgba(0, 0, 0, 0.808);
     font-weight: bold;
+    border-color: white;
 }
 body pop{
     padding-top: 50px;
@@ -55,7 +56,7 @@ body pop{
 body div h1{
     color:rgba(103, 139, 248, 0.938);
     text-shadow: 3px 5px rgba(0, 0, 0, 0.575);
-    font-size: 50px;
+    font-size: 70px;
     margin-bottom: 20px;
 }
 .desactive{
