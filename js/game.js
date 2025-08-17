@@ -73,7 +73,7 @@ sprite_enemy.src = "assets/enemy.png";
 const sprite_player = new Image();
 sprite_player.src = "assets/sprite-player.png";
 
-var force = 3;
+var force = 5;
 
 const player = Bodies.rectangle(640, 360, 50, 50, {
     friction: 1, // atrito contra objetos
@@ -160,7 +160,10 @@ document.addEventListener("mouseup", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.key === " ") {
         puedeShot = true;
-    
+         if (player.label != "muerto" && puedeShot) {
+            sound_shot.currentTime = 0; // Reinicia el sonido al principio
+            sound_shot.volume = 0.1; // Ajusta el volumen del sonido
+            sound_shot.play();}
 }})
 document.addEventListener("keyup", (event) => {
     if (event.key === " ") {

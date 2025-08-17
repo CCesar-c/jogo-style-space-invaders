@@ -1,9 +1,26 @@
-localStorage.removeItem("dificuldade"); // limpar difficulty
 
 document.addEventListener("click", () =>{
     var musica = document.querySelector("audio");
     musica.play();
 })
+document.addEventListener("DOMContentLoaded", () => {
+    const musica = document.getElementById("musica");
+
+    const volumeSalvo = localStorage.getItem("volumeMusica");
+
+    if (volumeSalvo !== null) {
+        musica.volume = parseFloat(volumeSalvo);
+    } else {
+        musica.volume = 0.5; // valor padrão caso não tenha nenhum salvo
+    }
+
+    // Garante que a música toque (autoplay pode ser bloqueado)
+    document.addEventListener("click", () => {
+        musica.play().catch(err => {
+            console.warn("Autoplay bloqueado. Clique para iniciar a música.");
+        });
+    });
+});
 
 var pop = document.querySelector("pop")
 var divi = document.querySelector("div")

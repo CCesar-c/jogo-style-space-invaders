@@ -1,3 +1,31 @@
+
+// Controle de volume
+const musica = document.getElementById("musica");
+const volumeInput = document.getElementById("volume");
+const volumeValor = document.getElementById("volume-valor");
+
+// Carrega o volume salvo (se existir)
+const volumeSalvo = localStorage.getItem("volumeMusica");
+if (volumeSalvo !== null) {
+    volumeInput.value = volumeSalvo;
+    musica.volume = volumeSalvo;
+    volumeValor.innerText = volumeSalvo;
+} else {
+    musica.volume = volumeInput.value;
+    volumeValor.innerText = volumeInput.value;
+}
+
+// Atualiza o volume, o texto e salva no localStorage ao mover o slider
+volumeInput.addEventListener("input", () => {
+    musica.volume = volumeInput.value;
+    volumeValor.innerText = volumeInput.value;
+    localStorage.setItem("volumeMusica", volumeInput.value);
+});
+
+// Garante que o som toque ao clicar (caso autoplay seja bloqueado)
+document.addEventListener("click", () =>{
+    musica.play();
+});
 var dificuldade = document.querySelector("[name='dificuldade']");
 
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
@@ -21,7 +49,7 @@ dificuldade.addEventListener("change", () => {
 
         case "4":
             localStorage.setItem("dificuldade", 0.04);
-            dificuldadeTexto.innerText = "HHardcore";
+            dificuldadeTexto.innerText = "Hardcore";
             break;
     }
 
