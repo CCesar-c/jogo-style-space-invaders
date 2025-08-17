@@ -34,7 +34,7 @@ function aumentarDificuldade() {
             if (max > 0.2) max = 0.2;
             console.log(`Dificuldade aumentada! max = ${max.toFixed(3)}`);
         }
-    // Aumenta a velocidade dos inimigos até um limite
+        // Aumenta a velocidade dos inimigos até um limite
         if (enemySpeed < 10) {
             enemySpeed += 0.5;
             if (enemySpeed > 10) enemySpeed = 10;
@@ -142,14 +142,6 @@ document.addEventListener("keyup", (e) => {
 var sound_shot = new Audio("assets/laser-312360.mp3");
 var sound_fundo_game = new Audio("assets/fundo-gameplay.mp3");
 
-document.addEventListener("click", () => {
-    if(player.label != "muerto") {
- // Ajusta o volume do som
-    sound_fundo_game.play()
-        sound_fundo_game.loop = true;
-        sound_fundo_game.autoplay = true;
-    }
-});
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
@@ -169,12 +161,14 @@ document.addEventListener("mouseup", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.key === " ") {
         puedeShot = true;
-    
-}})
+
+    }
+})
 document.addEventListener("keyup", (event) => {
     if (event.key === " ") {
-        puedeShot = false; 
-    }});
+        puedeShot = false;
+    }
+});
 
 var finRay = { x: 0, y: 0 };
 var comienzoRay = { x: 0, y: 0 };
@@ -184,10 +178,10 @@ Events.on(engine, "beforeUpdate", () => {
     // Reiniciar o jogo
     if (keys["r"] && player.label == "muerto") {
         console.log("reiniciar juego");
-    window.location.href = "game.html"; // reiniciar o jogo
+        window.location.href = "game.html"; // reiniciar o jogo
     } else if (keys["q"] && player.label == "muerto") {
         console.log("salir del juego");
-    window.location.href = "index.html"; // voltar para o início do jogo
+        window.location.href = "index.html"; // voltar para o início do jogo
     }
 
     // Movimento do jogador
@@ -195,6 +189,15 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["d"] || keys["ArrowRight"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
+    
+    if (player.label != "muerto") {
+        // Ajusta o volume do som
+        sound_fundo_game.play()
+        sound_fundo_game.loop = true;
+        sound_fundo_game.autoplay = true;
+    } else {
+        sound_fundo_game.pause();
+    }
 
     var contador_interno = Number();
     switch (contador_interno) {
@@ -235,7 +238,7 @@ Events.on(engine, "beforeUpdate", () => {
     }
 
     if (Math.random() <= max) {
-    // inimigo
+        // inimigo
         var enemy = Bodies.rectangle(0, 0, 50, 50, {
             friction: 1,
             density: 2,
@@ -245,7 +248,7 @@ Events.on(engine, "beforeUpdate", () => {
         Body.setPosition(enemy, { x: valor, y: enemy.position.y })
 
         World.add(world, enemy);
-    enemiges.push(enemy);// adicionar inimigo ao array
+        enemiges.push(enemy);// adicionar inimigo ao array
     }
     enemiges.forEach(sim => {
         Body.setVelocity(sim, { x: 0, y: enemySpeed })
