@@ -1,5 +1,10 @@
-alert("Bem-vindo ao jogo Space Invaders!");
 localStorage.removeItem("dificuldade"); // limpar difficulty
+
+document.addEventListener("click", () =>{
+    var musica = document.querySelector("audio");
+    musica.play();
+})
+
 var pop = document.querySelector("pop")
 var divi = document.querySelector("div")
 document.querySelector(".Comecar").addEventListener("click", () => {
