@@ -66,6 +66,7 @@ Events.on(engine, "collisionStart", (event) => {
         let bodb = pair.bodyB;
         if (boda.label == "enemy" && bodb.label == "paredAbaixo" ) {
             // eliminar enemigo del mundo
+            console.log("enemigo eliminado");
             World.remove(world, boda);
             // eliminar enemigo del array
             const index = enemiges.indexOf(boda);
@@ -74,6 +75,7 @@ Events.on(engine, "collisionStart", (event) => {
             }
         }else if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
             // eliminar enemigo del mundo
+            console.log("enemigo eliminado");
             World.remove(world, bodb);
             // eliminar enemigo del array
             const index = enemiges.indexOf(bodb);
