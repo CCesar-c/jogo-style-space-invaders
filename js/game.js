@@ -24,7 +24,7 @@ var mortes = 0; // contador de muertes
 const enemiges = [];
 
 // dificuldade
-var max = parseFloat(localStorage.getItem("dificuldade"));
+var max = parseFloat(localStorage.getItem("dificuldade")) || 0.02;
 alert(localStorage.getItem("dificuldade"));
 
 //4 paredes
@@ -128,11 +128,12 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-    var contador_interno = 0;
+    var contador_interno =  Number();
     switch (contador_interno) {
         case 50:
             max += 0.01;
             console.log("max");
+            contador_interno = 0;
             break;
     }
     document.querySelector("h1").innerText = `score: ${mortes}`;
@@ -141,7 +142,7 @@ Events.on(engine, "beforeUpdate", () => {
     comienzoRay = { x: player.position.x, y: player.position.y }
     finRay = { x: player.position.x, y: player.position.y - 500 }
 
-    if (puedeShot) {
+    if (puedeShot && player.label != "muerto") {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
         rayo.forEach(none => {
             none = none.body; // asegurarse de que none es un cuerpo
@@ -210,5 +211,7 @@ Events.on(engine, "beforeUpdate", () => {
         ctx.beginPath();
         ctx.moveTo(comienzoRay.x, comienzoRay.y);
         ctx.lineTo(finRay.x, finRay.y);
+        ctx.stroke();
     }
+    requestAnimationFrame(draw);
 })();
