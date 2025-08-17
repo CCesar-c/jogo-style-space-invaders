@@ -35,8 +35,8 @@ button{
     font-size: 15px;
 }
 button:hover{  
-    height: 80px;
-    width: 130px;
+    height: 60px;
+    width: 120px;
     border-radius: 20px;
     font-size: 20px;
     border-radius: 10px;
@@ -46,7 +46,7 @@ button:hover{
     cursor: pointer;
     color: rgba(0, 0, 0, 0.808);
     font-weight: bold;
-
+}
 body pop{
     padding-top: 50px;
     padding: 50px 50px;

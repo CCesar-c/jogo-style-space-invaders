@@ -23,13 +23,13 @@ body {
 
 div {
     display: flex;
+    font-size: 25px;
     justify-content: center;
     align-items: center;
     text-align: center;
     position: absolute;
     width: 100%;
     height: 100%;
-    padding: 50px 50px;
     background-color: #ffee00;
     color: white;
 }
