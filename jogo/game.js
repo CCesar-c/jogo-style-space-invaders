@@ -1,8 +1,14 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-var puedeShot = false;
+
+// Iniciar motor
+const runner = Runner.create();
 const engine = Engine.create();
 const world = engine.world;
+
+Runner.run(runner, engine);
+engine.world.gravity.y = 0;
+
 
 // Configuración del canvas
 const canvas = document.querySelector("canvas");
@@ -15,19 +21,17 @@ var valor = Number();
 var mortes = 0; // contador de muertes
 
 const enemiges = [];
-var max = 0.01;
 
-// Iniciar motor
-const runner = Runner.create();
-Runner.run(runner, engine);
-engine.world.gravity.y = 0;
-//engine.world.gravity.x = 0;
+// dificuldade
+var max = parseFloat(localStorage.getItem("dificuldade"));
+alert(localStorage.getItem("dificuldade"));
 
 //4 paredes
 const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
 const paredEsquerda = Bodies.rectangle(25, 360, 50, 720, { isStatic: true });
 const paredDireita = Bodies.rectangle(1255, 360, 50, 720, { isStatic: true });
 World.add(world, [paredAbaixo, paredEsquerda, paredDireita]);
+
 // jugador
 var force = 3;
 const player = Bodies.rectangle(640, 360, 50, 50, {
@@ -39,32 +43,29 @@ const player = Bodies.rectangle(640, 360, 50, 50, {
 });
 World.add(world, [player]);
 
-// Movimiento horizontal
-const keys = {};
-document.addEventListener("keydown", (e) => keys[e.key] = true);
-document.addEventListener("keyup", (e) => keys[e.key] = false);
-
-// disparos
-document.addEventListener("mousedown", (event) => {
-    if (event.button == 0) {
-        puedeShot = true;
-    }
-
-})
-document.addEventListener("mouseup", (event) => {
-    if (event.button == 0) {
-        puedeShot = false;
-    }
-})
-var finRay = { x: 0, y: 0 };
-var comienzoRay = 0;
-
 // entrar colisión el enemy con la pared y eliminarlo
 Events.on(engine, "collisionStart", (event) => {
     event.pairs.forEach(pair => {
         let boda = pair.bodyA;
         let bodb = pair.bodyB;
-        if (boda.label == "enemy" && bodb.label == "paredAbaixo" ) {
+
+        if (boda.label == "player" && bodb.label == "enemy") {
+            console.log("perdiste el juego");
+            document.querySelector("[name='game-over']").classList.remove("desactive");
+            document.querySelector("[name='game-over']").classList.add("active");
+            player.label = "muerto";
+            World.remove(world, boda);
+            // Aquí puedes agregar la lógica para finalizar el juego
+        } else if (boda.label == "enemy" && bodb.label == "player") {
+            console.log("perdiste el juego");
+            World.remove(world, bodb);
+            // parar el tiempo de juego
+            document.querySelector("[name='game-over']").classList.remove("desactive");
+            document.querySelector("[name='game-over']").classList.add("active");
+            player.label = "muerto";
+        }
+
+        if (boda.label == "enemy" && bodb.label == "paredAbaixo") {
             // eliminar enemigo del mundo
             console.log("enemigo eliminado");
             World.remove(world, boda);
@@ -73,7 +74,7 @@ Events.on(engine, "collisionStart", (event) => {
             if (index >= 0) {
                 enemiges.splice(index, 1);
             }
-        }else if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
+        } else if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
             // eliminar enemigo del mundo
             console.log("enemigo eliminado");
             World.remove(world, bodb);
@@ -86,18 +87,58 @@ Events.on(engine, "collisionStart", (event) => {
     })
 });
 
+// Movimiento horizontal
+const keys = {};
+document.addEventListener("keydown", (e) => {
+    keys[e.key] = true
+});
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+});
+
+// disparos
+document.addEventListener("mousedown", (event) => {
+    if (event.button == 0) {
+        puedeShot = true;
+    }
+})
+document.addEventListener("mouseup", (event) => {
+    if (event.button == 0) {
+        puedeShot = false;
+    }
+})
+var finRay = { x: 0, y: 0 };
+var comienzoRay = { x: 0, y: 0 };
+var puedeShot = false;
 // Actualizar
 Events.on(engine, "beforeUpdate", () => {
-    document.querySelector("h1").innerText = mortes;
-    switch (mortes) {
-        case mortes + 10:
+    // Reiniciar el juego
+    if (keys["r"] && player.label == "muerto") {
+        console.log("reiniciar juego");
+        window.location.href = "game.html"; // reiniciar el juego
+    } else if (keys["q"] && player.label == "muerto") {
+        console.log("salir del juego");
+        window.location.href = "/home/chopito/Documents/jogo-style-space-invaders/index.html"; // redirigir al inicio del juego
+    }
+
+    // movimiento del jugador
+    if (keys["a"] || keys["ArrowLeft"]) { Body.setVelocity(player, { x: -force, y: 0 }); }
+    if (keys["d"] || keys["ArrowRight"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
+    if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
+    if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
+
+    var contador_interno = 0;
+    switch (contador_interno) {
+        case 50:
             max += 0.01;
-            console.log("max")
+            console.log("max");
             break;
     }
+    document.querySelector("h1").innerText = `score: ${mortes}`;
+
     // disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
-    finRay = { x: player.position.x, y: player.position.y - 100 }
+    finRay = { x: player.position.x, y: player.position.y - 500 }
 
     if (puedeShot) {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
@@ -113,14 +154,13 @@ Events.on(engine, "beforeUpdate", () => {
                 // eliminarlo del mundo
                 World.remove(world, none);
                 mortes++;
-
+                contador_interno++
             }
         })
+        setTimeout(() => {
+            puedeShot = false; // desactivar el disparo después de un tiempo
+        }, 100); // 100 ms de espera antes de permitir otro disparo
     }
-    if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -force, y: 0 });
-    if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +force, y: 0 });
-    if (keys["w"] || keys["ArrowUp"]) Body.setVelocity(player, { x: 0, y: -force });
-    if (keys["s"] || keys["ArrowDown"]) Body.setVelocity(player, { x: 0, y: +force });
 
     if (Math.random() <= max) {
 

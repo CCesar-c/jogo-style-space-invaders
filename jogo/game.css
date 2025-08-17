@@ -1,9 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'VT323', monospace;
+}
+
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     margin: 0px;
     padding: 0px;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+}
+
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 50px 50px;
+    background-color: #ffee00;
+    color: white;
 }
 
 canvas {
@@ -15,12 +40,24 @@ canvas {
     height: 100%;
     width: 100%;
 }
-h1 {
+
+body h1 {
     position: absolute;
     top: 20px;
     left: 20px;
     color: white;
     font-family: Arial, sans-serif;
     font-size: 24px;
+    margin-bottom: 30px;
     z-index: 10;
+}
+
+.desactive {
+    display: none;
+    opacity: 0;
+}
+
+.active {
+    display: flex;
+    opacity: 1;
 }
