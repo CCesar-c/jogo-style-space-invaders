@@ -9,14 +9,17 @@
 
 body {
 
-    background-image: url("sound-and-video/Fundo\ de\ Tela\ Melhorado.gif");
+    background-image: url("../assets/Fundo\ da\ tela\ inicial.gif");
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
+
 
 button{
     border-radius: 10px;
@@ -32,6 +35,10 @@ button{
     font-size: 15px;
 }
 button:hover{  
+    height: 80px;
+    width: 130px;
+    border-radius: 20px;
+    font-size: 20px;
     border-radius: 10px;
     transition: 0.5s;
     background-color: rgba(149, 168, 228, 0.555);
@@ -39,10 +46,15 @@ button:hover{
     cursor: pointer;
     color: rgba(0, 0, 0, 0.808);
     font-weight: bold;
-}
+
 body pop{
+    padding-top: 50px;
     padding: 50px 50px;
     background-color: aqua;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 20px;
     border-radius: 15px;
 }
 body div h1{
@@ -54,8 +66,10 @@ body div h1{
 .desactive{
     transition: 0.5s;
     display: none;
-    opacity: 0;
+    font-size: 70px;
+    margin-bottom: 20px;
 }
+
 .active{
     transition: 0.5s;
     transform: scale(1.1);

@@ -1,4 +1,5 @@
-localStorage.removeItem("dificuldade"); // default difficulty
+
+localStorage.removeItem("dificuldade"); // limpar difficulty
 var pop = document.querySelector("pop")
 var divi = document.querySelector("div")
 document.querySelector(".Comecar").addEventListener("click", () => {
@@ -35,4 +36,5 @@ dificuldade.addEventListener("change", () => {
             dificuldadeTexto.innerText = "HHardcore";
             break;
     }
+
 });

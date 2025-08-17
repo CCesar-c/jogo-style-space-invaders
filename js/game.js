@@ -1,3 +1,4 @@
+
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
 
@@ -209,8 +210,4 @@ Events.on(engine, "beforeUpdate", () => {
         ctx.beginPath();
         ctx.moveTo(comienzoRay.x, comienzoRay.y);
         ctx.lineTo(finRay.x, finRay.y);
-        ctx.stroke();
     }
-
-    requestAnimationFrame(draw);
-})();
