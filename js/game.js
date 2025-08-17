@@ -211,3 +211,4 @@ Events.on(engine, "beforeUpdate", () => {
         ctx.moveTo(comienzoRay.x, comienzoRay.y);
         ctx.lineTo(finRay.x, finRay.y);
     }
+})();
