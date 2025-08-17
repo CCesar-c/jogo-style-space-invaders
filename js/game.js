@@ -46,14 +46,35 @@ function aumentarDificuldade() {
 // Dificuldade
 var max = parseFloat(localStorage.getItem("dificuldade")) || 0.02;
 
-// 4 paredes
-const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
-const paredEsquerda = Bodies.rectangle(25, 360, 50, 720, { isStatic: true });
-const paredDireita = Bodies.rectangle(1255, 360, 50, 720, { isStatic: true });
-World.add(world, [paredAbaixo, paredEsquerda, paredDireita]);
 
-// Jogador
-var force = 5;
+//4 paredes
+const sprite_pared = new Image();
+sprite_pared.src = "assets/pared.png";
+
+const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
+paredAbaixo.width = 1280;
+paredAbaixo.height = 50;
+
+const paredEsquerda = Bodies.rectangle(25, 360, 50, 720, { isStatic: true });
+paredEsquerda.width = 50;
+paredEsquerda.height = 720;
+
+const paredDireita = Bodies.rectangle(1255, 360, 50, 720, { isStatic: true });
+paredDireita.width = 50;
+paredDireita.height = 720;
+
+World.add(world, [paredAbaixo, paredEsquerda, paredDireita]);
+// enemygo dibujo
+const sprite_enemy = new Image();
+sprite_enemy.src = "assets/enemy.png";
+
+
+// jugador
+const sprite_player = new Image();
+sprite_player.src = "assets/sprite-player.png";
+
+var force = 3;
+
 const player = Bodies.rectangle(640, 360, 50, 50, {
     friction: 1, // atrito contra objetos
     frictionAir: 0.1, // atrito no ar
@@ -116,10 +137,18 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
-// Disparos
+
+// disparos
+var sound_shot = new Audio("assets/laser-312360.mp3");
+
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
+        if (player.label != "muerto" && puedeShot) {
+            sound_shot.currentTime = 0; // Reinicia el sonido al principio
+            sound_shot.volume = 0.1; // Ajusta el volumen del sonido
+            sound_shot.play();
+        }
     }
 })
 document.addEventListener("mouseup", (event) => {
@@ -158,7 +187,7 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-    var contador_interno =  Number();
+    var contador_interno = Number();
     switch (contador_interno) {
         case 50:
             max += 0.01;
@@ -173,6 +202,7 @@ Events.on(engine, "beforeUpdate", () => {
     finRay = { x: player.position.x, y: player.position.y - 500 }
 
     if (puedeShot && player.label != "muerto") {
+
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
         rayo.forEach(none => {
             none = none.body; // garantir que none é um corpo
@@ -214,26 +244,26 @@ Events.on(engine, "beforeUpdate", () => {
 });
 
 
-// Desenhar
+// Dibujar
+
 (function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Desenha paredes
-    ctx.fillStyle = "white";
+    // Dibuja paredes
     var arrayParedes = [paredAbaixo, paredEsquerda, paredDireita];
     arrayParedes.forEach(pare => {
-        ctx.fillRect(pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
+        ctx.drawImage(sprite_pared, pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
     });
 
-    // Desenha inimigos
-    ctx.fillStyle = "red";
+
+    // Desenha inimigo
+
     enemiges.forEach(none => {
-        ctx.fillRect(none.position.x - 25, none.position.y - 25, 50, 50);
+        ctx.drawImage(sprite_enemy, none.position.x - 25, none.position.y - 25, 50, 50);
     })
 
     // Desenha jogador
-    ctx.fillStyle = "blue";
-    ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
+    ctx.drawImage(sprite_player, player.position.x - 25, player.position.y - 25, 50, 50);
 
     // Desenha raio
     if (puedeShot) {
