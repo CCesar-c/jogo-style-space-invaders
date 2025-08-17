@@ -140,7 +140,16 @@ document.addEventListener("keyup", (e) => {
 
 // disparos
 var sound_shot = new Audio("assets/laser-312360.mp3");
+var sound_fundo_game = new Audio("assets/fundo-gameplay.mp3");
 
+document.addEventListener("click", () => {
+    if(player.label != "muerto") {
+ // Ajusta o volume do som
+    sound_fundo_game.play()
+        sound_fundo_game.loop = true;
+        sound_fundo_game.autoplay = true;
+    }
+});
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
