@@ -1,19 +1,3 @@
-localStorage.removeItem("dificuldade"); // limpar difficulty
-
-document.addEventListener("click", () =>{
-    var musica = document.querySelector("audio");
-    musica.play();
-})
-
-var pop = document.querySelector("pop")
-var divi = document.querySelector("div")
-document.querySelector(".Comecar").addEventListener("click", () => {
-   window.location.href = 'game.html'
-})
-document.querySelector(".Opções").addEventListener("click", () => {
-    window.location.href = 'Opções.html'
-})
-
 var dificuldade = document.querySelector("[name='dificuldade']");
 
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
@@ -37,7 +21,7 @@ dificuldade.addEventListener("change", () => {
 
         case "4":
             localStorage.setItem("dificuldade", 0.04);
-            dificuldadeTexto.innerText = "Hardcore";
+            dificuldadeTexto.innerText = "HHardcore";
             break;
     }
 
