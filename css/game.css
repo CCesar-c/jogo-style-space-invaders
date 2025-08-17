@@ -30,7 +30,7 @@ div {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #ffee00;
+    background-color: rgba(149, 168, 228);
     color: white;
 }
 
