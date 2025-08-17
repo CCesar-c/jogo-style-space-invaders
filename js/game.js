@@ -1,149 +1,213 @@
-const { Engine, Runner, Bodies, World, Body, Events, Query } = Matter;
 
-var points = 0;
+const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-// Controle do disparo
-let canShoot = false;
 
-// Criação do motor e do mundo
+// Iniciar motor
+const runner = Runner.create();
 const engine = Engine.create();
 const world = engine.world;
 
-// Configuração do canvas
+Runner.run(runner, engine);
+engine.world.gravity.y = 0;
+
+
+// Configuración del canvas
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Variáveis globais
-let randomX = Number();
-const enemies = [];
-let spawnProbability = 0.01;
+var valor = Number();
+var mortes = 0; // contador de muertes
 
-// Inicia o motor
-const runner = Runner.create();
-Runner.run(runner, engine);
+const enemiges = [];
 
-// Desativa a gravidade
-engine.world.gravity.y = 0;
+// dificuldade
+var max = parseFloat(localStorage.getItem("dificuldade"));
+alert(localStorage.getItem("dificuldade"));
 
-// Força de movimento do jogador
-const playerSpeed = 5;
+//4 paredes
+const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
+const paredEsquerda = Bodies.rectangle(25, 360, 50, 720, { isStatic: true });
+const paredDireita = Bodies.rectangle(1255, 360, 50, 720, { isStatic: true });
+World.add(world, [paredAbaixo, paredEsquerda, paredDireita]);
 
-// Criação do jogador
+// jugador
+var force = 3;
 const player = Bodies.rectangle(640, 360, 50, 50, {
-    friction: 1,
-    frictionAir: 0.1,
+    friction: 1, // deslizamiento contra objetos
+    frictionAir: 0.1, //deslizamiento en el aire
+    //frictionStatic: 0.5, // deslizamiento evitado ?
     density: 0.5,
+    label: "player",
 });
 World.add(world, [player]);
 
-// Controle de teclas pressionadas
+// entrar colisión el enemy con la pared y eliminarlo
+Events.on(engine, "collisionStart", (event) => {
+    event.pairs.forEach(pair => {
+        let boda = pair.bodyA;
+        let bodb = pair.bodyB;
+
+        if (boda.label == "player" && bodb.label == "enemy") {
+            console.log("perdiste el juego");
+            document.querySelector("[name='game-over']").classList.remove("desactive");
+            document.querySelector("[name='game-over']").classList.add("active");
+            player.label = "muerto";
+            World.remove(world, boda);
+            // Aquí puedes agregar la lógica para finalizar el juego
+        } else if (boda.label == "enemy" && bodb.label == "player") {
+            console.log("perdiste el juego");
+            World.remove(world, bodb);
+            // parar el tiempo de juego
+            document.querySelector("[name='game-over']").classList.remove("desactive");
+            document.querySelector("[name='game-over']").classList.add("active");
+            player.label = "muerto";
+        }
+
+        if (boda.label == "enemy" && bodb.label == "paredAbaixo") {
+            // eliminar enemigo del mundo
+            console.log("enemigo eliminado");
+            World.remove(world, boda);
+            // eliminar enemigo del array
+            const index = enemiges.indexOf(boda);
+            if (index >= 0) {
+                enemiges.splice(index, 1);
+            }
+        } else if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
+            // eliminar enemigo del mundo
+            console.log("enemigo eliminado");
+            World.remove(world, bodb);
+            // eliminar enemigo del array
+            const index = enemiges.indexOf(bodb);
+            if (index >= 0) {
+                enemiges.splice(index, 1);
+            }
+        }
+    })
+});
+
+// Movimiento horizontal
 const keys = {};
-document.addEventListener("keydown", (e) => keys[e.key] = true);
-document.addEventListener("keyup", (e) => keys[e.key] = false);
-
-// Detecta disparo (barra de espaço)
-document.addEventListener("keydown", (event) => {
-    if (event.key === " ") {
-        canShoot = true;
-    }
+document.addEventListener("keydown", (e) => {
+    keys[e.key] = true
 });
-document.addEventListener("keyup", (event) => {
-    if (event.key === " ") {
-        canShoot = false;
-    }
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
 });
 
-// Pontos de início e fim do raio do disparo
-let rayStart = { x: 0, y: 0 };
-let rayEnd = { x: 0, y: 0 };
-
-// Atualização da lógica do jogo
+// disparos
+document.addEventListener("mousedown", (event) => {
+    if (event.button == 0) {
+        puedeShot = true;
+    }
+})
+document.addEventListener("mouseup", (event) => {
+    if (event.button == 0) {
+        puedeShot = false;
+    }
+})
+var finRay = { x: 0, y: 0 };
+var comienzoRay = { x: 0, y: 0 };
+var puedeShot = false;
+// Actualizar
 Events.on(engine, "beforeUpdate", () => {
-
-    // Define o raio do disparo (linha reta para cima)
-    rayStart = { x: player.position.x, y: player.position.y };
-    rayEnd = { x: player.position.x, y: player.position.y - 1000 };
-
-    // Verifica se o jogador está atirando
-    if (canShoot) {
-        // Realiza a detecção de colisão com o raio
-        const rayHits = Query.ray(enemies, rayStart, rayEnd, 1);
-        
-        // Remove inimigos atingidos
-        rayHits.forEach(hit => {
-            World.remove(world, hit.body);
-            const index = enemies.indexOf(hit.body);
-            if (index !== -1) enemies.splice(index, 1);
-            points += 1; // Incrementa os pontos
-            document.querySelector("h1").innerText = `Pontos: ${points}`;
-        });
+    // Reiniciar el juego
+    if (keys["r"] && player.label == "muerto") {
+        console.log("reiniciar juego");
+        window.location.href = "game.html"; // reiniciar el juego
+    } else if (keys["q"] && player.label == "muerto") {
+        console.log("salir del juego");
+        window.location.href = "/home/chopito/Documents/jogo-style-space-invaders/index.html"; // redirigir al inicio del juego
     }
 
-    // Movimento do jogador baseado nas teclas
-    if (keys["a"] || keys["ArrowLeft"]) Body.setVelocity(player, { x: -playerSpeed, y: 0 });
-    if (keys["d"] || keys["ArrowRight"]) Body.setVelocity(player, { x: +playerSpeed, y: 0 });
-    if (keys["w"] || keys["ArrowUp"]) Body.setVelocity(player, { x: 0, y: -playerSpeed });
-    if (keys["s"] || keys["ArrowDown"]) Body.setVelocity(player, { x: 0, y: +playerSpeed });
+    // movimiento del jugador
+    if (keys["a"] || keys["ArrowLeft"]) { Body.setVelocity(player, { x: -force, y: 0 }); }
+    if (keys["d"] || keys["ArrowRight"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
+    if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
+    if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-    // Geração aleatória de inimigos
-    if (Math.random() <= spawnProbability) {
-        const enemy = Bodies.rectangle(0, 0, 50, 50, {
+    var contador_interno = 0;
+    switch (contador_interno) {
+        case 50:
+            max += 0.01;
+            console.log("max");
+            break;
+    }
+    document.querySelector("h1").innerText = `score: ${mortes}`;
+
+    // disparo
+    comienzoRay = { x: player.position.x, y: player.position.y }
+    finRay = { x: player.position.x, y: player.position.y - 500 }
+
+    if (puedeShot) {
+        var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        rayo.forEach(none => {
+            none = none.body; // asegurarse de que none es un cuerpo
+            // encontrar el índice del enemigo en el array
+            // none.body es el cuerpo del enemigo
+            const indicador = enemiges.indexOf(none);
+            // si lo encuentra
+            if (indicador >= 0) {
+                // eliminarlo del array
+                enemiges.splice(indicador, 1);
+                // eliminarlo del mundo
+                World.remove(world, none);
+                mortes++;
+                contador_interno++
+            }
+        })
+        setTimeout(() => {
+            puedeShot = false; // desactivar el disparo después de un tiempo
+        }, 100); // 100 ms de espera antes de permitir otro disparo
+    }
+
+    if (Math.random() <= max) {
+
+        // enemigo
+        var enemy = Bodies.rectangle(0, 0, 50, 50, {
             friction: 1,
             density: 2,
-        });
-
-        // Define posição horizontal aleatória
-        randomX = Math.floor(Math.random() * 1280);
-        Body.setPosition(enemy, { x: randomX, y: enemy.position.y });
+            label: "enemy",
+        })
+        valor = Math.floor(Math.random() * 1280);
+        Body.setPosition(enemy, { x: valor, y: enemy.position.y })
 
         World.add(world, enemy);
-        enemies.push(enemy);
-
-        console.log("enemy spawned");
+        enemiges.push(enemy);// añadir enemigo al array
     }
+    enemiges.forEach(sim => {
+        Body.setVelocity(sim, { x: 0, y: 4 })
+    })
 
-    // Move os inimigos para baixo e verifica colisão com o player
-    enemies.forEach((enemy, i) => {
-        Body.setVelocity(enemy, { x: 0, y: 2 });
-
-        // Verifica colisão simples entre player e inimigo
-        const dx = Math.abs(enemy.position.x - player.position.x);
-        const dy = Math.abs(enemy.position.y - player.position.y);
-        if (dx <= 51 && dy <= 51) {
-            World.remove(world, enemy);
-            enemies.splice(i, 1);
-            points += 1; // Incrementa os pontos
-            document.querySelector("h1").innerText = `Pontos: ${points}`;
-
-        }
-    });
 });
 
-// Loop de desenho
+// Dibujar
 (function draw() {
-    // Limpa a tela
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Desenha os inimigos
-    ctx.fillStyle = "red";
-    enemies.forEach(enemy => {
-        ctx.fillRect(enemy.position.x - 25, enemy.position.y - 25, 50, 50);
+    // Dibuja paredes
+    ctx.fillStyle = "white";
+    var arrayParedes = [paredAbaixo, paredEsquerda, paredDireita];
+    arrayParedes.forEach(pare => {
+        ctx.fillRect(pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
     });
 
-    // Desenha o jogador
+    // Desenha inimigo
+    ctx.fillStyle = "red";
+    enemiges.forEach(none => {
+        ctx.fillRect(none.position.x - 25, none.position.y - 25, 50, 50);
+    })
+
+    // Desenha jogador
     ctx.fillStyle = "blue";
     ctx.fillRect(player.position.x - 25, player.position.y - 25, 50, 50);
 
-    // Desenha o raio do disparo
-    if (canShoot) {
+    // Dibuja rayo
+    if (puedeShot) {
         ctx.strokeStyle = "red";
         ctx.beginPath();
-        ctx.moveTo(rayStart.x, rayStart.y);
-        ctx.lineTo(rayEnd.x, rayEnd.y);
-        ctx.stroke();
+        ctx.moveTo(comienzoRay.x, comienzoRay.y);
+        ctx.lineTo(finRay.x, finRay.y);
     }
-
-    requestAnimationFrame(draw);
-})();
