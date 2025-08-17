@@ -145,11 +145,6 @@ var sound_fundo_game = new Audio("assets/fundo-gameplay.mp3");
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
-        if (player.label != "muerto" && puedeShot) {
-            sound_shot.currentTime = 0; // Reinicia el sonido al principio
-            sound_shot.volume = 0.1; // Ajusta el volumen del sonido
-            sound_shot.play();
-        }
     }
 })
 document.addEventListener("mouseup", (event) => {
@@ -180,9 +175,12 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["d"] || keys["ArrowRight"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
-    
+
     if (player.label != "muerto") {
         // Ajusta o volume do som
+        sound_shot.currentTime = 0; // Reinicia el sonido al principio
+        sound_shot.volume = 0.1; // Ajusta el volumen del sonido
+        sound_shot.play();
         sound_fundo_game.play()
         sound_fundo_game.loop = true;
         sound_fundo_game.autoplay = true;
