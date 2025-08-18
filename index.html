@@ -4,28 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Cosmic Battle.io</title>
+    <link rel="stylesheet" href="css/index.css">
+    <title>Cosmic Battle</title>
 </head>
 
 <body>
-
+    <audio id="musica" src="assets/Musica-do-jogo.mp3" autoplay loop></audio>
     <div>
         <h1>Cosmic Battle</h1>
 
-        <button class="Comecar">Começar</button>
-        <button class="Opções">Opções</button>
+        <button class="Comecar" onclick="window.location.href='game.html'">Começar</button>
         <br>
-        <button>Créditos</button>
-        <button>Sair</button>
-        <br>
-
+        <button class="Opções" onclick="window.location.href='Opções.html'">Opções</button>
     </div>
-    <pop class="desactive">
-        <button onclick="window.location.href ='jogo/game.html'">Começar</button>
-    </pop>
-    <script src="index.js"></script>
+    <script src="js/index.js"></script>
+
 </body>
-
-
 </html>
