@@ -150,6 +150,16 @@ document.addEventListener("mouseup", (event) => {
     }
 })
 // Disparos com espaço
+document.addEventListener("keydown", (event) => {
+    if (event.key == " ") {
+        puedeShot = true;
+    }
+})
+document.addEventListener("keyup", (event) => {
+    if (event.key == " ") {
+        puedeShot = false;
+    }
+})
 
 document.addEventListener("keydown", (e) => { keys[e.key] = true; })
 document.addEventListener("keyup", (e) => { keys[e.key] = false; })
