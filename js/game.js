@@ -25,6 +25,7 @@ var mortes = 0; // contador de mortes
 const enemiges = [];
 
 // Progressão de dificuldade
+var max = parseFloat(localStorage.getItem("dificuldade"))
 var enemySpeed = 2;
 function aumentarDificuldade() {
     // Aumenta a dificuldade a cada 10 mortes, até um limite
@@ -44,7 +45,6 @@ function aumentarDificuldade() {
 }
 
 // Dificuldade
-var max = parseFloat(localStorage.getItem("dificuldade")) || 0.02;
 
 
 //4 paredes
@@ -96,6 +96,7 @@ Events.on(engine, "collisionStart", (event) => {
             document.querySelector("[name='game-over']").classList.add("active");
             player.label = "muerto";
             World.remove(world, boda);
+            document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
             // Aqui você pode adicionar a lógica para finalizar o jogo
         } else if (boda.label == "enemy" && bodb.label == "player") {
             console.log("perdiste el juego");
@@ -104,6 +105,7 @@ Events.on(engine, "collisionStart", (event) => {
             document.querySelector("[name='game-over']").classList.remove("desactive");
             document.querySelector("[name='game-over']").classList.add("active");
             player.label = "muerto";
+
         }
 
         if (boda.label == "enemy" && bodb.label == "paredAbaixo") {
@@ -142,6 +144,7 @@ document.addEventListener("keyup", (e) => {
 var sound_shot = new Audio("assets/laser-312360.mp3");
 var sound_fundo_game = new Audio("assets/fundo-gameplay.mp3");
 
+
 document.addEventListener("mousedown", (event) => {
     if (event.button == 0) {
         puedeShot = true;
@@ -160,7 +163,20 @@ var finRay = { x: 0, y: 0 };
 var comienzoRay = { x: 0, y: 0 };
 var puedeShot = false;
 // Atualização
+
 Events.on(engine, "beforeUpdate", () => {
+    if (player && player.label != "muerto") {
+        if (sound_fundo_game && sound_fundo_game.paused) {
+            sound_fundo_game.volume = parseFloat(localStorage.getItem("som")) || 0.5;
+            sound_fundo_game.loop = true;
+
+            sound_fundo_game.play().catch(err => {
+                console.warn("⚠️ No se pudo reproducir el sonido (esperando interacción):", err);
+            });
+        }
+    } else {
+        sound_fundo_game.pause();
+    }
     // Reiniciar o jogo
     if (keys["r"] && player.label == "muerto") {
         console.log("reiniciar juego");
@@ -176,35 +192,19 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-    if (player.label != "muerto") {
-        // Ajusta o volume do som
-        sound_shot.currentTime = 0; // Reinicia el sonido al principio
-        sound_shot.volume = 0.1; // Ajusta el volumen del sonido
-        sound_shot.play();
-        sound_fundo_game.play()
-        sound_fundo_game.loop = true;
-        sound_fundo_game.autoplay = true;
-    } else {
-        sound_fundo_game.pause();
-    }
 
-    var contador_interno = Number();
-    switch (contador_interno) {
-        case 50:
-            max += 0.01;
-            console.log("max");
-            contador_interno = 0;
-            break;
-    }
-    document.querySelector("h1").innerText = `Pontos: ${mortes}`;
+    document.querySelector("h1").innerText = `Pontos: ${mortes} na Dificuldade: ${max.toFixed(3)}`;
 
     // Disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
     finRay = { x: player.position.x, y: player.position.y - 500 }
 
     if (puedeShot && player.label != "muerto") {
-
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
+        sound_shot.volume = localStorage.getItem("som") || 0.5; // volume e uma variavel de 0 a 1 nao de 0 a 100
+        sound_shot.currentTime = 0; // Reinicia o som no início
+        sound_shot.play();
+
         rayo.forEach(none => {
             none = none.body; // garantir que none é um corpo
             // encontrar o índice do inimigo no array
@@ -218,7 +218,6 @@ Events.on(engine, "beforeUpdate", () => {
                 World.remove(world, none);
                 mortes++;
                 aumentarDificuldade();
-                contador_interno++
             }
         })
         setTimeout(() => {
