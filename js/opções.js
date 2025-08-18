@@ -9,7 +9,7 @@ var dificuldadeTexto = document.querySelector("#dificuldade-texto");
 dificuldade.value = parseInt(localStorage.getItem("dificuldade"));
 dificuldade.innerText = localStorage.getItem("dificuldade");
 
-som.value = parseInt(localStorage.getItem("som")) *100;
+som.value = parseInt(localStorage.getItem("som"));
 somTexto.innerText = parseInt(localStorage.getItem("som"));
 
 sound_fundo_game.volume = parseInt(localStorage.getItem("som"));
