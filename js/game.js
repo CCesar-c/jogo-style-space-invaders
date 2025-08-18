@@ -1,4 +1,4 @@
-
+document
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
 
@@ -10,18 +10,12 @@ const world = engine.world;
 Runner.run(runner, engine);
 engine.world.gravity.y = 0;
 
-
 // Configuração do canvas
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
 var valor = Number();
 var mortes = 0; // contador de mortes
-
-
 const enemiges = [];
 
 // Progressão de dificuldade
