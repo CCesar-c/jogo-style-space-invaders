@@ -1,33 +1,36 @@
+var sound_fundo_game = new Audio("assets/musica-fundo.mp3");
 
-// Controle de volume
-const musica = document.getElementById("musica");
-const volumeInput = document.getElementById("volume");
-const volumeValor = document.getElementById("volume-valor");
+var som = document.querySelector("[name='sound']");
+var somTexto = document.querySelector("#volume-texto");
 
-// Carrega o volume salvo (se existir)
-const volumeSalvo = localStorage.getItem("volumeMusica");
-if (volumeSalvo !== null) {
-    volumeInput.value = volumeSalvo;
-    musica.volume = volumeSalvo;
-    volumeValor.innerText = volumeSalvo;
-} else {
-    musica.volume = volumeInput.value;
-    volumeValor.innerText = volumeInput.value;
-}
+som.value = localStorage.getItem("som") || 0.5;
+somTexto.innerText = som.value || "50";
 
-// Atualiza o volume, o texto e salva no localStorage ao mover o slider
-volumeInput.addEventListener("input", () => {
-    musica.volume = volumeInput.value;
-    volumeValor.innerText = volumeInput.value;
-    localStorage.setItem("volumeMusica", volumeInput.value);
-});
-
-// Garante que o som toque ao clicar (caso autoplay seja bloqueado)
 document.addEventListener("click", () =>{
-    musica.play();
-});
-var dificuldade = document.querySelector("[name='dificuldade']");
+    sound_fundo_game.play();
+    sound_fundo_game.volume = localStorage.getItem("som");
+    sound_fundo_game.loop = true;
+    sound_fundo_game.autoplay = true;
+})
 
+som.addEventListener("change", () => {
+    switch (som.value) {
+    case 0:
+        somTexto.innerText = "Mute";
+        localStorage.setItem("som", 0);
+        break;
+    case 100:
+        somTexto.innerText = "Ao maximo, tem certeza?";
+        localStorage.setItem("som", 1);
+        break;
+    default:
+        somTexto.innerText = som.value;
+        localStorage.setItem("som", som.value / 100);
+        break;
+}
+    
+})
+var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
 
 dificuldade.addEventListener("change", () => {
@@ -54,3 +57,4 @@ dificuldade.addEventListener("change", () => {
     }
 
 });
+

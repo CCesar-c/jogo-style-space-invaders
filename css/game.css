@@ -20,11 +20,9 @@ body {
 }
 
 div {
-    display: flex;
     font-size: 25px;
     justify-content: center;
     align-items: center;
-    text-align: center;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -33,10 +31,7 @@ div {
 }
 
 canvas {
-    /*background-image: url("assets/badground_game.gif");*/
     position: absolute;
-    top: 0;
-    left: 0;
     display: block;
     height: 100%;
     width: 100%;
@@ -65,8 +60,6 @@ body h1 {
 
 img{
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
