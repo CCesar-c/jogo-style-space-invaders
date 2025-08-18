@@ -30,7 +30,7 @@ function aumentarDificuldade() {
             console.log(`Dificuldade aumentada! max = ${max.toFixed(3)}`);
         }
         // Aumenta a velocidade dos inimigos até um limite
-        if (enemySpeed < 10) {
+        if (enemySpeed < 20) {
             enemySpeed += 0.5;
             if (enemySpeed > 10) enemySpeed = 10;
             console.log(`Velocidade dos inimigos: ${enemySpeed}`);
