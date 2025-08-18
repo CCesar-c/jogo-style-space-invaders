@@ -214,7 +214,7 @@ var todo = max * 100;
             // encontrar o índice do inimigo no array
             // none.body é o corpo do inimigo
             const indicador = enemiges.indexOf(none);
-            // si lo encuentra
+            // se ele achar
             if (indicador >= 0) {
                 // remover do array
                 enemiges.splice(indicador, 1);
