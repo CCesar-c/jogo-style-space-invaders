@@ -5,3 +5,4 @@ document.addEventListener("click", () =>{
     musica.loop = true;
     musica.autoplay = true;
     musica.play();
+});
