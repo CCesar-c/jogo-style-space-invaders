@@ -32,7 +32,7 @@ som.addEventListener("change", () => {
             break;
         default:
             somTexto.innerText = som.value;
-            localStorage.setItem("som", som.value);
+            localStorage.setItem("som", som.value /100);
             break;
     }
 })
