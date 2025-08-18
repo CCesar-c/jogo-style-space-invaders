@@ -161,7 +161,7 @@ document.addEventListener("keyup", (event) => {
     }
 })
 
-document.addEventListener("keydown", (e) => { keys[e.key] = true; })
+document.addEventListener("keydown", (e) => { keys[e.key] = true;})
 document.addEventListener("keyup", (e) => { keys[e.key] = false; })
 
 var finRay = { x: 0, y: 0 };
