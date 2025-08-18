@@ -3,12 +3,13 @@ var sound_fundo_game = new Audio("assets/musica-fundo.mp3");
 var som = document.querySelector("[name='sound']");
 var somTexto = document.querySelector("#volume-texto");
 
-som.value = parseInt(localStorage.getItem("som")) || 0.5;
-somTexto.innerText = som.value || "50";
+som.value = parseInt(localStorage.getItem("som"));
+somTexto.innerText = parseInt(localStorage.getItem("som")) || "50";
 
+sound_fundo_game.volume = parseInt(localStorage.getItem("som"));
 document.addEventListener("click", () =>{
     sound_fundo_game.play();
-    sound_fundo_game.volume = parseInt(localStorage.getItem("som"));
+
     sound_fundo_game.loop = true;
     sound_fundo_game.autoplay = true;
 })
@@ -25,16 +26,17 @@ som.addEventListener("change", () => {
         break;
     default:
         somTexto.innerText = som.value;
-        localStorage.setItem("som", som.value / 100);
+        localStorage.setItem("som", som.value);
         break;
-}
-    
+    }
 })
 
 var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
-dificuldade.value = localStorage.getItem("dificuldade");
+
+dificuldade.value = parseInt(localStorage.getItem("dificuldade"));
 dificuldade.innerText = localStorage.getItem("dificuldade");
+
 dificuldade.addEventListener("change", () => {
     switch (dificuldade.value) {
         case "1":
