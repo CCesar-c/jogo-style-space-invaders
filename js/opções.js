@@ -30,9 +30,11 @@ som.addEventListener("change", () => {
 }
     
 })
+
 var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
-
+dificuldade.value = localStorage.getItem("dificuldade");
+dificuldade.innerText = localStorage.getItem("dificuldade");
 dificuldade.addEventListener("change", () => {
     switch (dificuldade.value) {
         case "1":
