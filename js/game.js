@@ -197,7 +197,8 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
 
-    document.querySelector("h1").innerText = `Pontos: ${mortes} na Dificuldade: ${max.toFixed(3)}`;
+    document.querySelector("h1").innerText = `Pontos: ${mortes} 
+    Dificuldade: ${max * 100}`;
 
     // Disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
