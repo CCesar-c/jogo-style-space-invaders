@@ -19,11 +19,11 @@ var mortes = 0; // contador de mortes
 const enemiges = [];
 
 // Progressão de dificuldade
-var max = parseFloat(localStorage.getItem("dificuldade"))
+var max = parseFloat(localStorage.getItem("dificuldade")) || 0.5;
 var enemySpeed = 2;
 function aumentarDificuldade() {
     // Aumenta a dificuldade a cada 10 mortes, até um limite
-    if (mortes > 0 && mortes % 10 === 0) {
+    if (mortes > 0 && mortes % 10 == 0) {
         if (max < 0.2) {
             max += 0.005;
             if (max > 0.2) max = 0.2;
@@ -150,8 +150,18 @@ document.addEventListener("mouseup", (event) => {
     }
 })
 // Disparos com espaço
+document.addEventListener("keydown", (event) => {
+    if (event.key == " ") {
+        puedeShot = true;
+    }
+})
+document.addEventListener("keyup", (event) => {
+    if (event.key == " ") {
+        puedeShot = false;
+    }
+})
 
-document.addEventListener("keydown", (e) => { keys[e.key] = true; })
+document.addEventListener("keydown", (e) => { keys[e.key] = true;})
 document.addEventListener("keyup", (e) => { keys[e.key] = false; })
 
 var finRay = { x: 0, y: 0 };
@@ -162,7 +172,6 @@ var puedeShot = false;
 Events.on(engine, "beforeUpdate", () => {
     if (player && player.label != "muerto") {
         if (sound_fundo_game && sound_fundo_game.paused) {
-            sound_fundo_game.volume = parseFloat(localStorage.getItem("som")) || 0.5;
             sound_fundo_game.loop = true;
 
             sound_fundo_game.play().catch(err => {
@@ -187,8 +196,9 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-
-    document.querySelector("h1").innerText = `Pontos: ${mortes} na Dificuldade: ${max.toFixed(3)}`;
+var todo = max * 100;
+    document.querySelector("h1").innerText = `Pontos: ${mortes} 
+    Dificuldade: ${todo.toFixed(1)}`;
 
     // Disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
@@ -196,7 +206,6 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (puedeShot && player.label != "muerto") {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
-        sound_shot.volume = localStorage.getItem("som") || 0.5; // volume e uma variavel de 0 a 1 nao de 0 a 100
         sound_shot.currentTime = 0; // Reinicia o som no início
         sound_shot.play();
 
