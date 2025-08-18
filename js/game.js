@@ -19,7 +19,7 @@ var mortes = 0; // contador de mortes
 const enemiges = [];
 
 // Progressão de dificuldade
-var max = parseFloat(localStorage.getItem("dificuldade")) || 0.5
+var max = parseFloat(localStorage.getItem("dificuldade")) || 0.5;
 var enemySpeed = 2;
 function aumentarDificuldade() {
     // Aumenta a dificuldade a cada 10 mortes, até um limite
