@@ -3,12 +3,12 @@ var sound_fundo_game = new Audio("assets/musica-fundo.mp3");
 var som = document.querySelector("[name='sound']");
 var somTexto = document.querySelector("#volume-texto");
 
-som.value = localStorage.getItem("som") || 0.5;
+som.value = parseInt(localStorage.getItem("som")) || 0.5;
 somTexto.innerText = som.value || "50";
 
 document.addEventListener("click", () =>{
     sound_fundo_game.play();
-    sound_fundo_game.volume = localStorage.getItem("som");
+    sound_fundo_game.volume = parseInt(localStorage.getItem("som"));
     sound_fundo_game.loop = true;
     sound_fundo_game.autoplay = true;
 })
