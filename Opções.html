@@ -17,6 +17,11 @@
         <input type="range" name="sound" min="0" max="100" value="50">
         <p>volume: <span id="volume-texto"></span></p>
         <br>
+        <label for="volume">Volume da musica:</label>
+        <input type="range" id="volume" name="volume" min="0" max="1" step="0.01" value="0.5">
+        <span id="volume-valor">0.5</span>
+        <br>
+        <audio id="musica" src="assets/Musica-do-jogo.mp3" autoplay loop></audio>
         <button onclick="window.location.href ='index.html'">Voltar</button>
     </div>
     <script src="js/opções.js"></script>

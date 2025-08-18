@@ -73,7 +73,7 @@ sprite_enemy.src = "assets/enemy.png";
 const sprite_player = new Image();
 sprite_player.src = "assets/sprite-player.png";
 
-var force = 3;
+var force = 5;
 
 const player = Bodies.rectangle(640, 360, 50, 50, {
     friction: 1, // atrito contra objetos
@@ -156,6 +156,7 @@ document.addEventListener("mouseup", (event) => {
     }
 })
 // Disparos com espaço
+
 document.addEventListener("keydown", (e) => { keys[e.key] = true; })
 document.addEventListener("keyup", (e) => { keys[e.key] = false; })
 

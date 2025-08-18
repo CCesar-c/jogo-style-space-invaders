@@ -52,7 +52,7 @@ dificuldade.addEventListener("change", () => {
 
         case "4":
             localStorage.setItem("dificuldade", 0.04);
-            dificuldadeTexto.innerText = "HHardcore";
+            dificuldadeTexto.innerText = "Hardcore";
             break;
     }
 
