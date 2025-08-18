@@ -1,7 +1,7 @@
 var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
 
-dificuldade.value = parseFloat(localStorage.getItem("dificuldade"));
+dificuldade.value = localStorage.getItem("dificuldade");
 dificuldade.innerText = localStorage.getItem("dificuldade");
 
 document.addEventListener("click", () => {
