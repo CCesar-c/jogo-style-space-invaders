@@ -30,6 +30,7 @@ som.addEventListener("change", () => {
 }
     
 })
+dificuldade.value = localStorage.getItem("som");
 var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
 
