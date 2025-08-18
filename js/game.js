@@ -23,7 +23,7 @@ var max = parseFloat(localStorage.getItem("dificuldade")) || 0.5
 var enemySpeed = 2;
 function aumentarDificuldade() {
     // Aumenta a dificuldade a cada 10 mortes, até um limite
-    if (mortes > 0 && mortes % 10 === 0) {
+    if (mortes > 0 && mortes % 10 == 0) {
         if (max < 0.2) {
             max += 0.005;
             if (max > 0.2) max = 0.2;
@@ -172,7 +172,6 @@ var puedeShot = false;
 Events.on(engine, "beforeUpdate", () => {
     if (player && player.label != "muerto") {
         if (sound_fundo_game && sound_fundo_game.paused) {
-            sound_fundo_game.volume = parseFloat(localStorage.getItem("som")) || 0.5;
             sound_fundo_game.loop = true;
 
             sound_fundo_game.play().catch(err => {
@@ -206,7 +205,6 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (puedeShot && player.label != "muerto") {
         var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
-        sound_shot.volume = localStorage.getItem("som") || 0.5; // volume e uma variavel de 0 a 1 nao de 0 a 100
         sound_shot.currentTime = 0; // Reinicia o som no início
         sound_shot.play();
 

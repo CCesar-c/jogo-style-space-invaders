@@ -1,40 +1,14 @@
-var sound_fundo_game = new Audio("assets/musica-fundo.mp3");
-
-var som = document.querySelector("[name='sound']");
-var somTexto = document.querySelector("#volume-texto");
-
 var dificuldade = document.querySelector("[name='dificuldade']");
 var dificuldadeTexto = document.querySelector("#dificuldade-texto");
 
 dificuldade.value = parseInt(localStorage.getItem("dificuldade"));
 dificuldade.innerText = localStorage.getItem("dificuldade");
 
-som.value = parseInt(localStorage.getItem("som"));
-somTexto.innerText = parseInt(localStorage.getItem("som"));
-
-sound_fundo_game.volume = parseInt(localStorage.getItem("som"));
 document.addEventListener("click", () => {
     sound_fundo_game.play();
 
     sound_fundo_game.loop = true;
     sound_fundo_game.autoplay = true;
-})
-
-som.addEventListener("change", () => {
-    switch (som.value) {
-        case 0:
-            somTexto.innerText = "Mute";
-            localStorage.setItem("som", 0);
-            break;
-        case 100:
-            somTexto.innerText = "Ao maximo, tem certeza?";
-            localStorage.setItem("som", 1);
-            break;
-        default:
-            somTexto.innerText = som.value;
-            localStorage.setItem("som", som.value /100);
-            break;
-    }
 })
 
 
