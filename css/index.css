@@ -6,8 +6,8 @@
     font-family: 'VT323', monospace;
 }
 
-body {
-    background: url("assets/Fundodatelainicial.gif");
+body{
+    background: url("/assets/Fundodatelainicial.gif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
