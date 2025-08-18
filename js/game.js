@@ -30,9 +30,9 @@ function aumentarDificuldade() {
             console.log(`Dificuldade aumentada! max = ${max.toFixed(3)}`);
         }
         // Aumenta a velocidade dos inimigos até um limite
-        if (enemySpeed < 10) {
+        if (enemySpeed < 20) {
             enemySpeed += 0.5;
-            if (enemySpeed > 10) enemySpeed = 10;
+            if (enemySpeed > 20) enemySpeed = 20;
             console.log(`Velocidade dos inimigos: ${enemySpeed}`);
         }
     }
@@ -214,7 +214,7 @@ var todo = max * 100;
             // encontrar o índice do inimigo no array
             // none.body é o corpo do inimigo
             const indicador = enemiges.indexOf(none);
-            // si lo encuentra
+            // se ele achar
             if (indicador >= 0) {
                 // remover do array
                 enemiges.splice(indicador, 1);
