@@ -89,26 +89,9 @@ Events.on(engine, "collisionStart", (event) => {
             World.remove(world, boda);
             document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
             // Aqui você pode adicionar a lógica para finalizar o jogo
-        } else if (boda.label == "enemy" && bodb.label == "player") {
-            console.log("perdiste el juego");
-            World.remove(world, bodb);
-            // parar o tempo do jogo
-            document.querySelector("[name='game-over']").classList.remove("desactive");
-            document.querySelector("[name='game-over']").classList.add("active");
-            player.label = "muerto";
-
         }
 
-        if (boda.label == "enemy" && bodb.label == "paredAbaixo") {
-            // remover inimigo do mundo
-            console.log("enemigo eliminado");
-            World.remove(world, boda);
-            // remover inimigo do array
-            const index = enemiges.indexOf(boda);
-            if (index >= 0) {
-                enemiges.splice(index, 1);
-            }
-        } else if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
+        if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
             // remover inimigo do mundo
             console.log("enemigo eliminado");
             World.remove(world, bodb);
