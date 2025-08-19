@@ -1,4 +1,3 @@
-document
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
 
@@ -159,7 +158,7 @@ document.addEventListener("keyup", (event) => {
     }
 })
 
-document.addEventListener("keydown", (e) => { keys[e.key] = true;})
+document.addEventListener("keydown", (e) => { keys[e.key] = true; })
 document.addEventListener("keyup", (e) => { keys[e.key] = false; })
 
 var finRay = { x: 0, y: 0 };
@@ -173,7 +172,7 @@ Events.on(engine, "beforeUpdate", () => {
             sound_fundo_game.loop = true;
 
             sound_fundo_game.play().catch(err => {
-                console.warn("⚠️ No se pudo reproducir el sonido (esperando interacción):", err);
+                console.warn("erro desconhecido", err);
             });
         }
     } else {
@@ -194,7 +193,7 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
     if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
-var todo = max * 100;
+    var todo = max * 100;
     document.querySelector("h1").innerText = `Pontos: ${mortes} 
     Dificuldade: ${todo.toFixed(1)}`;
 
