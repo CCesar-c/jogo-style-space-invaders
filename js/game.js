@@ -69,7 +69,7 @@ sprite_player.src = "assets/sprite-player.png";
 
 var force = 5;
 
-const player = Bodies.rectangle(640, 360, 50, 50, {
+const player = Bodies.rectangle(640, 360, 30, 30, {
     friction: 1, // atrito contra objetos
     frictionAir: 0.1, // atrito no ar
     //frictionStatic: 0.5, // atrito estático evitado ?
@@ -263,7 +263,7 @@ var todo = max * 100;
     // Desenha inimigo
 
     enemiges.forEach(none => {
-        ctx.drawImage(sprite_enemy, none.position.x - 25, none.position.y - 25, 50, 50);
+        ctx.drawImage(sprite_enemy, none.position.x - 25, none.position.y - 25, 60, 60);
     })
 
     // Desenha jogador
