@@ -7,7 +7,7 @@
 }
 
 body {
-    background: url("assets/Fundodatelainicial.gif");
+    background: url("/assets/backgroundMenu.gif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,6 +16,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    color: white;
 }
 
 
@@ -31,6 +32,7 @@ button{
     width: 130px;
     border-radius: 20px;
     font-size: 20px;
+    color: white;
 }
 button:hover{  
     height: 60px;
