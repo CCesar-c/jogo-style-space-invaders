@@ -226,7 +226,7 @@ var todo = max * 100;
         })
         setTimeout(() => {
             puedeShot = false; // desativar o disparo após um tempo
-        }, 100); // 100 ms de espera antes de permitir outro disparo
+        }, 0); // 100 ms de espera antes de permitir outro disparo
     }
 
     if (Math.random() <= max) {
