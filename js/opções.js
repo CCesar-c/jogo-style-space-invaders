@@ -31,6 +31,9 @@ dificuldade.addEventListener("change", () => {
             localStorage.setItem("dificuldade", 0.04);
             dificuldadeTexto.innerText = "Hardcore";
             break;
+        default:
+            localStorage.setItem("dificuldade", 0.02);
+            dificuldadeTexto.innerText = "Média";
     }
 
 });

@@ -37,9 +37,7 @@ function aumentarDificuldade() {
         }
     }
 }
-
 // Dificuldade
-
 
 //4 paredes
 const sprite_pared = new Image();
