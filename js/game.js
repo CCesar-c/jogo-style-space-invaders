@@ -65,7 +65,7 @@ const sprite_player = new Image();
 sprite_player.src = "assets/sprite-player.png";
 
 var force = 5;
-
+var vida_player =3;
 const player = Bodies.rectangle(640, 360, 30, 30, {
     friction: 1, // atrito contra objetos
     frictionAir: 0.1, // atrito no ar
@@ -82,12 +82,16 @@ Events.on(engine, "collisionStart", (event) => {
         let bodb = pair.bodyB;
 
         if (boda.label == "player" && bodb.label == "enemy") {
-            console.log("perdiste el juego");
-            document.querySelector("[name='game-over']").classList.remove("desactive");
-            document.querySelector("[name='game-over']").classList.add("active");
-            player.label = "muerto";
-            World.remove(world, boda);
-            document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
+            vida_player--;
+            if(vida_player == 0){
+                console.log("perdiste el juego");
+                document.querySelector("[name='game-over']").classList.remove("desactive");
+                document.querySelector("[name='game-over']").classList.add("active");
+                player.label = "muerto";
+                World.remove(world, boda);
+                document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
+                
+            }
             // Aqui você pode adicionar a lógica para finalizar o jogo
         }
 
