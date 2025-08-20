@@ -83,6 +83,11 @@ Events.on(engine, "collisionStart", (event) => {
 
         if (boda.label == "player" && bodb.label == "enemy") {
             vida_player--;
+            World.remove(world, bodb);
+            const index = enemiges.indexOf(bodb);
+            if (index >= 0) {
+                enemiges.splice(index, 1);
+            }
             if(vida_player == 0){
                 console.log("perdiste el juego");
                 document.querySelector("[name='game-over']").classList.remove("desactive");
