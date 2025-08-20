@@ -83,6 +83,7 @@ Events.on(engine, "collisionStart", (event) => {
 
         if (boda.label == "player" && bodb.label == "enemy") {
             vida_player--;
+            mortes++
             World.remove(world, bodb);
             const index = enemiges.indexOf(bodb);
             if (index >= 0) {
