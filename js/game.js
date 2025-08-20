@@ -65,7 +65,7 @@ const sprite_player = new Image();
 sprite_player.src = "assets/sprite-player.png";
 
 var force = 5;
-var vida_player =3;
+var vida_player = 3;
 const player = Bodies.rectangle(640, 360, 30, 30, {
     friction: 1, // atrito contra objetos
     frictionAir: 0.1, // atrito no ar
@@ -88,14 +88,14 @@ Events.on(engine, "collisionStart", (event) => {
             if (index >= 0) {
                 enemiges.splice(index, 1);
             }
-            if(vida_player == 0){
+            if (vida_player == 0) {
                 console.log("perdiste el juego");
                 document.querySelector("[name='game-over']").classList.remove("desactive");
                 document.querySelector("[name='game-over']").classList.add("active");
                 player.label = "muerto";
                 World.remove(world, boda);
                 document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
-                
+
             }
             // Aqui você pode adicionar a lógica para finalizar o jogo
         }
@@ -181,14 +181,13 @@ Events.on(engine, "beforeUpdate", () => {
     }
 
     // Movimento do jogador
-    if (keys["a"] ) { Body.setVelocity(player, { x: -force, y: 0 }); }
-    if (keys["d"] ) { Body.setVelocity(player, { x: +force, y: 0 }); }
-    if (keys["w"] ) { Body.setVelocity(player, { x: 0, y: -force }); }
-    if (keys["s"] ) { Body.setVelocity(player, { x: 0, y: +force }); }
+    if (keys["a"]) { Body.setVelocity(player, { x: -force, y: 0 }); }
+    if (keys["d"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
+    if (keys["w"]) { Body.setVelocity(player, { x: 0, y: -force }); }
+    if (keys["s"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
     var todo = max * 100;
-    document.querySelector("h1").innerText = 
-    `Pontos: ${mortes} 
+    document.querySelector("h1").innerText = `Pontos: ${mortes} 
     Dificuldade: ${todo.toFixed(1)} 
     Vida: ${vida_player}`;
     // Limitar a velocidade do jogador
