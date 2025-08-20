@@ -135,12 +135,12 @@ document.addEventListener("mouseup", (event) => {
 })
 // Disparos com espaço
 document.addEventListener("keydown", (event) => {
-    if (event.key == " ") {
+    if (event.key == " ") { // Verifica se a tecla pressionada é a barra de espaço
         puedeShot = true;
     }
 })
 document.addEventListener("keyup", (event) => {
-    if (event.key == " ") {
+    if (event.key == " ") { // Verifica se a tecla liberada é a barra de espaço
         puedeShot = false;
     }
 })
@@ -154,6 +154,7 @@ var puedeShot = false;
 // Atualização
 
 Events.on(engine, "beforeUpdate", () => {
+
     if (player && player.label != "muerto") {
         if (sound_fundo_game && sound_fundo_game.paused) {
             sound_fundo_game.loop = true;
@@ -175,14 +176,17 @@ Events.on(engine, "beforeUpdate", () => {
     }
 
     // Movimento do jogador
-    if (keys["a"] || keys["ArrowLeft"]) { Body.setVelocity(player, { x: -force, y: 0 }); }
-    if (keys["d"] || keys["ArrowRight"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
-    if (keys["w"] || keys["ArrowUp"]) { Body.setVelocity(player, { x: 0, y: -force }); }
-    if (keys["s"] || keys["ArrowDown"]) { Body.setVelocity(player, { x: 0, y: +force }); }
+    if (keys["a"] ) { Body.setVelocity(player, { x: -force, y: 0 }); }
+    if (keys["d"] ) { Body.setVelocity(player, { x: +force, y: 0 }); }
+    if (keys["w"] ) { Body.setVelocity(player, { x: 0, y: -force }); }
+    if (keys["s"] ) { Body.setVelocity(player, { x: 0, y: +force }); }
 
     var todo = max * 100;
-    document.querySelector("h1").innerText = `Pontos: ${mortes} 
-    Dificuldade: ${todo.toFixed(1)}`;
+    document.querySelector("h1").innerText = 
+    `Pontos: ${mortes} 
+    Dificuldade: ${todo.toFixed(1)} 
+    Vida: ${vida_player}`;
+    // Limitar a velocidade do jogador
 
     // Disparo
     comienzoRay = { x: player.position.x, y: player.position.y }
