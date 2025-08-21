@@ -83,7 +83,7 @@ Events.on(engine, "collisionStart", (event) => {
         let boda = pair.bodyA;
         let bodb = pair.bodyB;
 
-        if (bodb.label == "paredAcima" && bodb.label == "player") {
+        if (boda.label == "paredAcima" && bodb.label == "player") {
             vida_player--;
         }
         if (boda.label == "player" && bodb.label == "enemy") {
@@ -102,9 +102,7 @@ Events.on(engine, "collisionStart", (event) => {
                 World.remove(world, boda);
                 document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione  tecla \"R\"  para reiniciar OU Pressione \"Q\" para sair";
             }
-            // Aqui você pode adicionar a lógica para finalizar o jogo
         }
-
         if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
             // remover inimigo do mundo
             console.log("enemigo eliminado");
