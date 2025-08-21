@@ -39,8 +39,6 @@ function aumentarDificuldade() {
 // Dificuldade
 
 //4 paredes
-const sprite_pared = new Image();
-sprite_pared.src = "assets/pared.png";
 
 const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
 paredAbaixo.width = 1280;
@@ -247,14 +245,7 @@ Events.on(engine, "beforeUpdate", () => {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     // Dibuja paredes
-    var arrayParedes = [paredAbaixo, paredEsquerda, paredDireita];
-    arrayParedes.forEach(pare => {
-        ctx.drawImage(sprite_pared, pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
-    });
-
-
     // Desenha inimigo
-
     enemiges.forEach(none => {
         ctx.drawImage(sprite_enemy, none.position.x - 25, none.position.y - 25, 60, 60);
     })
