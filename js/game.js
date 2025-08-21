@@ -100,8 +100,7 @@ Events.on(engine, "collisionStart", (event) => {
                 document.querySelector("[name='game-over']").classList.add("active");
                 player.label = "muerto";
                 World.remove(world, boda);
-                document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione R para reiniciar OU Pressione Q para sair";
-
+                document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione  tecla \"R\"  para reiniciar OU Pressione \"Q\" para sair";
             }
             // Aqui você pode adicionar a lógica para finalizar o jogo
         }
@@ -229,7 +228,7 @@ Events.on(engine, "beforeUpdate", () => {
 
     if (Math.random() <= max) {
         // inimigo
-        var enemy = Bodies.rectangle(0, 0, 50, 50, {
+        var enemy = Bodies.rectangle(640, 20, 50, 50, {
             friction: 1,
             density: 2,
             label: "enemy",
