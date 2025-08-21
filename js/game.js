@@ -42,19 +42,23 @@ function aumentarDificuldade() {
 const sprite_pared = new Image();
 sprite_pared.src = "assets/pared.png";
 
-const paredAbaixo = Bodies.rectangle(640, 695, 1280, 50, { isStatic: true, label: "paredAbaixo" });
+const paredAbaixo = Bodies.rectangle(640, 720, 1280, 50, { isStatic: true, label: "paredAbaixo" });
 paredAbaixo.width = 1280;
 paredAbaixo.height = 50;
 
-const paredEsquerda = Bodies.rectangle(25, 360, 50, 720, { isStatic: true });
+const paredEsquerda = Bodies.rectangle(0, 360, 50, 720, { isStatic: true });
 paredEsquerda.width = 50;
 paredEsquerda.height = 720;
 
-const paredDireita = Bodies.rectangle(1255, 360, 50, 720, { isStatic: true });
+const paredDireita = Bodies.rectangle(1280, 360, 50, 720, { isStatic: true });
 paredDireita.width = 50;
 paredDireita.height = 720;
 
-World.add(world, [paredAbaixo, paredEsquerda, paredDireita]);
+const paredAcima = Bodies.rectangle(640, -50, 1280, 50, { isStatic: true, label: "paredAcima" });
+paredAcima.width = 1280;
+paredAcima.height = 50;
+
+World.add(world, [paredAbaixo, paredEsquerda, paredDireita, paredAcima]);
 // enemygo dibujo
 const sprite_enemy = new Image();
 sprite_enemy.src = "assets/enemy.png";
@@ -81,6 +85,9 @@ Events.on(engine, "collisionStart", (event) => {
         let boda = pair.bodyA;
         let bodb = pair.bodyB;
 
+        if (bodb.label == "paredAcima" && bodb.label == "player") {
+            vida_player--;
+        }
         if (boda.label == "player" && bodb.label == "enemy") {
             vida_player--;
             mortes++
@@ -248,10 +255,7 @@ Events.on(engine, "beforeUpdate", () => {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     // Dibuja paredes
-    var arrayParedes = [paredAbaixo, paredEsquerda, paredDireita];
-    arrayParedes.forEach(pare => {
-        ctx.drawImage(sprite_pared, pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
-    });
+   
 
 
     // Desenha inimigo
