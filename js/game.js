@@ -251,12 +251,6 @@ Events.on(engine, "beforeUpdate", () => {
 (function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Dibuja paredes
-    var arrayParedes = [paredAbaixo, paredEsquerda, paredDireita];
-    arrayParedes.forEach(pare => {
-        ctx.drawImage(sprite_pared, pare.position.x - pare.width / 2, pare.position.y - pare.height / 2, pare.width, pare.height);
-    });
-
 
     // Desenha inimigo
     enemiges.forEach(none => {
