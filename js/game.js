@@ -94,14 +94,15 @@ Events.on(engine, "collisionStart", (event) => {
             if (index >= 0) {
                 enemiges.splice(index, 1);
             }
-            if (vida_player == 0) {
-                console.log("perdiste el juego");
-                document.querySelector("[name='game-over']").classList.remove("desactive");
-                document.querySelector("[name='game-over']").classList.add("active");
-                player.label = "muerto";
-                World.remove(world, boda);
-                document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione  tecla \"R\"  para reiniciar OU Pressione \"Q\" para sair";
-            }
+
+        }
+        if (vida_player <= 0) {
+            console.log("perdiste el juego");
+            document.querySelector("[name='game-over']").classList.remove("desactive");
+            document.querySelector("[name='game-over']").classList.add("active");
+            player.label = "muerto";
+            World.remove(world, boda);
+            document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione  tecla \"R\"  para reiniciar OU Pressione \"Q\" para sair";
         }
         if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
             // remover inimigo do mundo
