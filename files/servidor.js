@@ -17,6 +17,7 @@ async function conexao() {
 conexao();
 // back - end 
 const app = express();
+
 app.use(express.text());
 app.use(express.static(path.join(__dirname, '../files')));
 app.use(express.urlencoded({ extended: true }));
