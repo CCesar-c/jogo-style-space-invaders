@@ -1,6 +1,6 @@
-const express =  require('express');
+const express = require('express');
 const path = require('path');
-const { createClient  } = require('redis');
+const { createClient } = require('redis');
 
 const client = createClient({
     username: 'default',
@@ -12,25 +12,35 @@ const client = createClient({
 });
 
 async function conexao() {
-    await client.connect();
+    try {
+        await client.connect();
+        console.log("Conectado ao Redis!");
+    } catch (err) {
+        console.error("Erro ao conectar:", err);
+    }
 }
 conexao();
-// back - end 
+
 const app = express();
+app.use(express.json());
 
-app.use(express.text());
-app.use(express.static(path.join(__dirname, '../files')));
-app.use(express.urlencoded({ extended: true }));
+// Servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'files')));
 
+// API: salvar pontos
 app.post('/pontos_enviar', async (req, res) => {
     const valor = parseInt(req.body.mortes);
     await client.set("user_points", valor);
-})
+    res.send("Pontos atualizados");
+});
 
+// API: pegar pontos
 app.get('/pontos_receber', async (req, res) => {
     const pontos = await client.get("user_points");
     res.send(pontos);
 });
+
+// Iniciar servidor
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });

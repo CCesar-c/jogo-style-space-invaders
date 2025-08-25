@@ -193,17 +193,12 @@ Events.on(engine, "beforeUpdate", () => {
     document.querySelector("h1").innerText = `Pontos: ${mortes}
     Dificuldade: ${todo.toFixed(1)} 
     Vida: ${vida_player}`;
-    
-    try {
-        fetch("/pontos_enviar",{
+
+    fetch("/pontos_enviar", {
         method: "POST",
-        headers: {"Content-Type": "text/plain"},
-        body: mortes.toString()
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({  mortes })
     });
-    } catch (error) {
-        console.log("Erro ao enviar pontos:", error);
-        
-    }
     // Limitar a velocidade do jogador
 
     // Disparo
