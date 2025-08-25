@@ -164,7 +164,7 @@ var puedeShot = false;
 
 Events.on(engine, "beforeUpdate", () => {
     if (player && player.label != "muerto" && mortes % 20 == 0 && mortes != 0 && vida_player > 0) { 
-        vida_player = vida_player + 3;
+        vida_player = 6;
     }
     if (player && player.label != "muerto") {
         if (sound_fundo_game && sound_fundo_game.paused) {
