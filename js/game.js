@@ -94,7 +94,6 @@ Events.on(engine, "collisionStart", (event) => {
             if (index >= 0) {
                 enemiges.splice(index, 1);
             }
-
         }
         if (vida_player <= 0) {
             console.log("perdiste el juego");
