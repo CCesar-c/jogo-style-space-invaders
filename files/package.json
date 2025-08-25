@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "matter-js": "^0.20.0"
+    "express": "^5.1.0",
+    "matter-js": "^0.20.0",
+    "redis": "^5.8.2"
   },
   "devDependencies": {
     "@types/matter-js": "^0.20.0"
