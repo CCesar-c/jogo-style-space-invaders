@@ -143,13 +143,14 @@ document.addEventListener("mouseup", (event) => {
 })
 // Disparos com espaço
 document.addEventListener("keydown", (event) => {
-    if (event.key == " ") { // Verifica se a tecla pressionada é a barra de espaço
-        puedeShot = true;
-    }
-})
-document.addEventListener("keyup", (event) => {
     if (event.key == " ") { // Verifica se a tecla liberada é a barra de espaço
         puedeShot = false;
+    }
+
+})
+document.addEventListener("keyup", (event) => {
+    if (event.key == " ") { // Verifica se a tecla pressionada é a barra de espaço
+        puedeShot = true;
     }
 })
 
