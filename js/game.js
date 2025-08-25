@@ -191,9 +191,20 @@ Events.on(engine, "beforeUpdate", () => {
     if (keys["s"]) { Body.setVelocity(player, { x: 0, y: +force }); }
 
     var todo = max * 100;
-    document.querySelector("h1").innerText = `Pontos: ${mortes} 
+    document.querySelector("h1").innerText = `Pontos: ${mortes}
     Dificuldade: ${todo.toFixed(1)} 
     Vida: ${vida_player}`;
+    
+    try {
+        fetch("/pontos_enviar",{
+        method: "POST",
+        headers: {"Content-Type": "text/plain"},
+        body: mortes.toString()
+    });
+    } catch (error) {
+        console.log("Erro ao enviar pontos:", error);
+        
+    }
     // Limitar a velocidade do jogador
 
     // Disparo
