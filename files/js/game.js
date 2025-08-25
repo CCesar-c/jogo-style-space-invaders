@@ -162,7 +162,9 @@ var puedeShot = false;
 // Atualização
 
 Events.on(engine, "beforeUpdate", () => {
-
+    if (player && player.label != "muerto" && mortes % 20 == 0 ) { 
+        
+    }
     if (player && player.label != "muerto") {
         if (sound_fundo_game && sound_fundo_game.paused) {
             sound_fundo_game.loop = true;

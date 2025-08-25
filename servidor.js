@@ -30,8 +30,12 @@ app.use(express.static(path.join(__dirname, 'files')));
 // API: salvar pontos
 app.post('/pontos_enviar', async (req, res) => {
     const valor = parseInt(req.body.mortes);
-    await client.set("user_points", valor);
-    res.send("Pontos atualizados");
+    if (valor <= 0) {
+        return res.status(400).send("Valor inválido");
+    } else {
+        await client.set("user_points", valor);
+        res.send("Pontos atualizados");
+    }
 });
 
 // API: pegar pontos

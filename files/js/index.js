@@ -3,6 +3,7 @@ function atualizarPontos() {
     .then(response => response.text())
     .then(result => {
         document.querySelector(".pontos").innerText = result;
+        console.log("Pontos atualizados: " + result);
     })
 }
 
