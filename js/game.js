@@ -1,6 +1,5 @@
 const { Engine, Runner, Bodies, World, Body, Events } = Matter;
 
-
 // Inicia o motor
 const runner = Runner.create();
 const engine = Engine.create();
@@ -21,26 +20,29 @@ const enemiges = [];
 var max = parseFloat(localStorage.getItem("dificuldade")) || 0.02;
 var enemySpeed = 2;
 function aumentarDificuldade() {
-    // Aumenta a dificuldade a cada 10 mortes, até um limite
-    if (mortes > 0 && mortes % 10 == 0) {
-        if (max < 0.2) {
-            max += 0.005;
-            if (max > 0.2) max = 0.2;
-            console.log(`Dificuldade aumentada! max = ${max.toFixed(3)}`);
-        }
-        // Aumenta a velocidade dos inimigos até um limite
-        if (enemySpeed < 20) {
-            enemySpeed += 0.5;
-            if (enemySpeed > 20) enemySpeed = 20;
-            console.log(`Velocidade dos inimigos: ${enemySpeed}`);
-        }
+  // Aumenta a dificuldade a cada 10 mortes, até um limite
+  if (mortes > 0 && mortes % 10 == 0) {
+    if (max < 0.2) {
+      max += 0.005;
+      if (max > 0.2) max = 0.2;
+      console.log(`Dificuldade aumentada! max = ${max.toFixed(3)}`);
     }
+    // Aumenta a velocidade dos inimigos até um limite
+    if (enemySpeed < 20) {
+      enemySpeed += 0.5;
+      if (enemySpeed > 20) enemySpeed = 20;
+      console.log(`Velocidade dos inimigos: ${enemySpeed}`);
+    }
+  }
 }
 // Dificuldade
 
 //4 paredes
 
-const paredAbaixo = Bodies.rectangle(640, 720, 1280, 50, { isStatic: true, label: "paredAbaixo" });
+const paredAbaixo = Bodies.rectangle(640, 720, 1280, 50, {
+  isStatic: true,
+  label: "paredAbaixo",
+});
 paredAbaixo.width = 1280;
 paredAbaixo.height = 50;
 
@@ -52,7 +54,10 @@ const paredDireita = Bodies.rectangle(1280, 360, 50, 720, { isStatic: true });
 paredDireita.width = 50;
 paredDireita.height = 720;
 
-const paredAcima = Bodies.rectangle(640, -50, 1280, 50, { isStatic: true, label: "paredAcima" });
+const paredAcima = Bodies.rectangle(640, -50, 1280, 50, {
+  isStatic: true,
+  label: "paredAcima",
+});
 paredAcima.width = 1280;
 paredAcima.height = 50;
 
@@ -61,7 +66,6 @@ World.add(world, [paredAbaixo, paredEsquerda, paredDireita, paredAcima]);
 const sprite_enemy = new Image();
 sprite_enemy.src = "assets/enemy.png";
 
-
 // jugador
 const sprite_player = new Image();
 sprite_player.src = "assets/sprite-player.png";
@@ -69,93 +73,100 @@ sprite_player.src = "assets/sprite-player.png";
 var force = 5;
 var vida_player = 3;
 const player = Bodies.rectangle(640, 360, 30, 30, {
-    friction: 1, // atrito contra objetos
-    frictionAir: 0.1, // atrito no ar
-    //frictionStatic: 0.5, // atrito estático evitado ?
-    density: 0.5,
-    label: "player",
+  friction: 1, // atrito contra objetos
+  frictionAir: 0.1, // atrito no ar
+  //frictionStatic: 0.5, // atrito estático evitado ?
+  density: 0.5,
+  label: "player",
 });
 World.add(world, [player]);
 
 // Detecta colisão do inimigo com a parede e remove
 Events.on(engine, "collisionStart", (event) => {
-    event.pairs.forEach(pair => {
-        let boda = pair.bodyA;
-        let bodb = pair.bodyB;
+  event.pairs.forEach((pair) => {
+    let boda = pair.bodyA;
+    let bodb = pair.bodyB;
 
-        if (boda.label == "paredAcima" && bodb.label == "player") {
-            vida_player--;
-        }
-        if (boda.label == "player" && bodb.label == "enemy") {
-            vida_player--;
-            mortes++
-            World.remove(world, bodb);
-            const index = enemiges.indexOf(bodb);
-            if (index >= 0) {
-                enemiges.splice(index, 1);
-            }
-
-        }
-        if (vida_player <= 0) {
-            console.log("perdiste el juego");
-            document.querySelector("[name='game-over']").classList.remove("desactive");
-            document.querySelector("[name='game-over']").classList.add("active");
-            player.label = "muerto";
-            World.remove(world, boda);
-            document.querySelector("h2").innerText = "VOCE PERDEU \n" + " Pressione  tecla \"R\"  para reiniciar OU Pressione \"Q\" para sair";
-        }
-        if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
-            // remover inimigo do mundo
-            console.log("enemigo eliminado");
-            World.remove(world, bodb);
-            // remover inimigo do array
-            const index = enemiges.indexOf(bodb);
-            if (index >= 0) {
-                enemiges.splice(index, 1);
-            }
-        }
-    })
+    if (boda.label == "paredAcima" && bodb.label == "player") {
+      vida_player--;
+    }
+    if (boda.label == "player" && bodb.label == "enemy") {
+      vida_player--;
+      mortes++;
+      World.remove(world, bodb);
+      const index = enemiges.indexOf(bodb);
+      if (index >= 0) {
+        enemiges.splice(index, 1);
+      }
+    }
+    if (vida_player <= 0) {
+      console.log("perdiste el juego");
+      document
+        .querySelector("[name='game-over']")
+        .classList.remove("desactive");
+      document.querySelector("[name='game-over']").classList.add("active");
+      player.label = "muerto";
+      World.remove(world, boda);
+      document.querySelector("h2").innerText =
+        "VOCE PERDEU \n" +
+        ' Pressione  tecla "R"  para reiniciar OU Pressione "Q" para sair';
+    }
+    if (boda.label == "paredAbaixo" && bodb.label == "enemy") {
+      // remover inimigo do mundo
+      console.log("enemigo eliminado");
+      World.remove(world, bodb);
+      // remover inimigo do array
+      const index = enemiges.indexOf(bodb);
+      if (index >= 0) {
+        enemiges.splice(index, 1);
+      }
+    }
+  });
 });
 
 // Movimento horizontal
 const keys = {};
 document.addEventListener("keydown", (e) => {
-    keys[e.key] = true
+  keys[e.key] = true;
 });
 document.addEventListener("keyup", (e) => {
-    keys[e.key] = false;
+  keys[e.key] = false;
 });
-
 
 // disparos
 var sound_shot = new Audio("assets/laser-312360.mp3");
 var sound_fundo_game = new Audio("assets/fundo-gameplay.mp3");
 
-
 document.addEventListener("mousedown", (event) => {
-    if (event.button == 0) {
-        puedeShot = true;
-    }
-})
+  if (event.button == 0) {
+    puedeShot = true;
+  }
+});
 document.addEventListener("mouseup", (event) => {
-    if (event.button == 0) {
-        puedeShot = false;
-    }
-})
+  if (event.button == 0) {
+    puedeShot = false;
+  }
+});
 // Disparos com espaço
 document.addEventListener("keydown", (event) => {
-    if (event.key == " ") { // Verifica se a tecla pressionada é a barra de espaço
-        puedeShot = true;
-    }
-})
+  if (event.key == " ") {
+    // Verifica se a tecla pressionada é a barra de espaço
+    puedeShot = true;
+  }
+});
 document.addEventListener("keyup", (event) => {
-    if (event.key == " ") { // Verifica se a tecla liberada é a barra de espaço
-        puedeShot = false;
-    }
-})
+  if (event.key == " ") {
+    // Verifica se a tecla liberada é a barra de espaço
+    puedeShot = false;
+  }
+});
 
-document.addEventListener("keydown", (e) => { keys[e.key] = true; })
-document.addEventListener("keyup", (e) => { keys[e.key] = false; })
+document.addEventListener("keydown", (e) => {
+  keys[e.key] = true;
+});
+document.addEventListener("keyup", (e) => {
+  keys[e.key] = false;
+});
 
 var finRay = { x: 0, y: 0 };
 var comienzoRay = { x: 0, y: 0 };
@@ -163,119 +174,125 @@ var puedeShot = false;
 // Atualização
 
 Events.on(engine, "beforeUpdate", () => {
+  if (player && player.label != "muerto") {
+    if (sound_fundo_game && sound_fundo_game.paused) {
+      sound_fundo_game.loop = true;
 
-    if (player && player.label != "muerto") {
-        if (sound_fundo_game && sound_fundo_game.paused) {
-            sound_fundo_game.loop = true;
-
-            sound_fundo_game.play().catch(err => {
-                console.warn("erro desconhecido", err);
-            });
-        }
-    } else {
-        sound_fundo_game.pause();
+      sound_fundo_game.play().catch((err) => {
+        console.warn("erro desconhecido", err);
+      });
     }
-    // Reiniciar o jogo
-    if (keys["r"] && player.label == "muerto") {
-        console.log("reiniciar juego");
-        window.location.href = "game.html"; // reiniciar o jogo
-    } else if (keys["q"] && player.label == "muerto") {
-        console.log("salir del juego");
-        window.location.href = "index.html"; // voltar para o início do jogo
-    }
+  } else {
+    sound_fundo_game.pause();
+  }
+  // Reiniciar o jogo
+  if (keys["r"] && player.label == "muerto") {
+    console.log("reiniciar juego");
+    window.location.href = "game.html"; // reiniciar o jogo
+  } else if (keys["q"] && player.label == "muerto") {
+    console.log("salir del juego");
+    window.location.href = "index.html"; // voltar para o início do jogo
+  }
 
-    // Movimento do jogador
-    if (keys["a"]) { Body.setVelocity(player, { x: -force, y: 0 }); }
-    if (keys["d"]) { Body.setVelocity(player, { x: +force, y: 0 }); }
-    if (keys["w"]) { Body.setVelocity(player, { x: 0, y: -force }); }
-    if (keys["s"]) { Body.setVelocity(player, { x: 0, y: +force }); }
+  // Movimento do jogador
+  if (keys["a"]) {
+    Body.setVelocity(player, { x: -force, y: 0 });
+  }
+  if (keys["d"]) {
+    Body.setVelocity(player, { x: +force, y: 0 });
+  }
+  if (keys["w"]) {
+    Body.setVelocity(player, { x: 0, y: -force });
+  }
+  if (keys["s"]) {
+    Body.setVelocity(player, { x: 0, y: +force });
+  }
 
-    var todo = max * 100;
-    document.querySelector("h1").innerText = `Pontos: ${mortes}
+  var todo = max * 100;
+  document.querySelector("h1").innerText = `Pontos: ${mortes}
     Dificuldade: ${todo.toFixed(1)} 
     Vida: ${vida_player}`;
-    
-    try {
-        fetch("/pontos_enviar",{
-        method: "POST",
-        headers: {"Content-Type": "text/plain"},
-        body: mortes.toString()
+  // Limitar a velocidade do jogador
+
+  // Disparo
+  comienzoRay = { x: player.position.x, y: player.position.y };
+  finRay = { x: player.position.x, y: player.position.y - 500 };
+
+  if (puedeShot && player.label != "muerto") {
+    var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1);
+    sound_shot.currentTime = 0; // Reinicia o som no início
+    sound_shot.play();
+
+    rayo.forEach((none) => {
+      none = none.body; // garantir que none é um corpo
+      // encontrar o índice do inimigo no array
+      // none.body é o corpo do inimigo
+      const indicador = enemiges.indexOf(none);
+      // se ele achar
+      if (indicador >= 0) {
+        // remover do array
+        enemiges.splice(indicador, 1);
+        // remover do mundo
+        World.remove(world, none);
+        mortes++;
+        aumentarDificuldade();
+      }
     });
-    } catch (error) {
-        console.log("Erro ao enviar pontos:", error);
-        
-    }
-    // Limitar a velocidade do jogador
+    setTimeout(() => {
+      puedeShot = false; // desativar o disparo após um tempo
+    }, 0); // 100 ms de espera antes de permitir outro disparo
+  }
 
-    // Disparo
-    comienzoRay = { x: player.position.x, y: player.position.y }
-    finRay = { x: player.position.x, y: player.position.y - 500 }
-
-    if (puedeShot && player.label != "muerto") {
-        var rayo = Matter.Query.ray(enemiges, comienzoRay, finRay, 1)
-        sound_shot.currentTime = 0; // Reinicia o som no início
-        sound_shot.play();
-
-        rayo.forEach(none => {
-            none = none.body; // garantir que none é um corpo
-            // encontrar o índice do inimigo no array
-            // none.body é o corpo do inimigo
-            const indicador = enemiges.indexOf(none);
-            // se ele achar
-            if (indicador >= 0) {
-                // remover do array
-                enemiges.splice(indicador, 1);
-                // remover do mundo
-                World.remove(world, none);
-                mortes++;
-                aumentarDificuldade();
-            }
-        })
-        setTimeout(() => {
-            puedeShot = false; // desativar o disparo após um tempo
-        }, 0); // 100 ms de espera antes de permitir outro disparo
-    }
-
-    if (Math.random() <= max) {
-        // inimigo
-        var enemy = Bodies.rectangle(640, 20, 50, 50, {
-            friction: 1,
-            density: 2,
-            label: "enemy",
-        })
-        valor = Math.floor(Math.random() * 1280);
-        Body.setPosition(enemy, { x: valor, y: enemy.position.y })
-
-        World.add(world, enemy);
-        enemiges.push(enemy);// adicionar inimigo ao array
-    }
-    enemiges.forEach(sim => {
-        Body.setVelocity(sim, { x: 0, y: enemySpeed })
+  if (Math.random() <= max) {
+    // inimigo
+    var enemy = Bodies.rectangle(640, 20, 50, 50, {
+      friction: 1,
+      density: 2,
+      label: "enemy",
     });
+    valor = Math.floor(Math.random() * 1280);
+    Body.setPosition(enemy, { x: valor, y: enemy.position.y });
+
+    World.add(world, enemy);
+    enemiges.push(enemy); // adicionar inimigo ao array
+  }
+  enemiges.forEach((sim) => {
+    Body.setVelocity(sim, { x: 0, y: enemySpeed });
+  });
 });
-
 
 // Dibujar
 
 (function draw() {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
+  // Desenha inimigo
+  enemiges.forEach((none) => {
+    ctx.drawImage(
+      sprite_enemy,
+      none.position.x - 25,
+      none.position.y - 25,
+      60,
+      60
+    );
+  });
 
-    // Desenha inimigo
-    enemiges.forEach(none => {
-        ctx.drawImage(sprite_enemy, none.position.x - 25, none.position.y - 25, 60, 60);
-    })
+  // Desenha jogador
+  ctx.drawImage(
+    sprite_player,
+    player.position.x - 25,
+    player.position.y - 25,
+    50,
+    50
+  );
 
-    // Desenha jogador
-    ctx.drawImage(sprite_player, player.position.x - 25, player.position.y - 25, 50, 50);
-
-    // Desenha raio
-    if (puedeShot) {
-        ctx.strokeStyle = "red";
-        ctx.beginPath();
-        ctx.moveTo(comienzoRay.x, comienzoRay.y);
-        ctx.lineTo(finRay.x, finRay.y);
-        ctx.stroke();
-    }
-    requestAnimationFrame(draw);
+  // Desenha raio
+  if (puedeShot) {
+    ctx.strokeStyle = "red";
+    ctx.beginPath();
+    ctx.moveTo(comienzoRay.x, comienzoRay.y);
+    ctx.lineTo(finRay.x, finRay.y);
+    ctx.stroke();
+  }
+  requestAnimationFrame(draw);
 })();
