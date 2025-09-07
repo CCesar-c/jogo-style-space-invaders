@@ -196,12 +196,6 @@ Events.on(engine, "beforeUpdate", () => {
     document.querySelector("h1").innerText = `Pontos: ${mortes}
     Dificuldade: ${todo.toFixed(1)} 
     Vida: ${vida_player}`;
-
-    fetch("/pontos_enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({  mortes })
-    });
     // Limitar a velocidade do jogador
 
     // Disparo
