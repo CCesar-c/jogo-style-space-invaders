@@ -148,32 +148,7 @@ document.addEventListener("mouseup", (event) => {
   }
 });
 // Disparos com espaço
-document.addEventListener("keydown", (event) => {
-  if (event.key == " ") {
-    // Verifica se a tecla pressionada é a barra de espaço
-    puedeShot = true;
-  }
-});
-document.addEventListener("keyup", (event) => {
-  if (event.key == " ") {
-    // Verifica se a tecla liberada é a barra de espaço
-    puedeShot = false;
-  }
-});
-
-document.addEventListener("keydown", (e) => {
-  keys[e.key] = true;
-});
-document.addEventListener("keyup", (e) => {
-  keys[e.key] = false;
-});
-
-var finRay = { x: 0, y: 0 };
-var comienzoRay = { x: 0, y: 0 };
-var puedeShot = false;
-// Atualização
-
-Events.on(engine, "beforeUpdate", () => {
+document.addEventListener("click", (event) => {
   if (player && player.label != "muerto") {
     if (sound_fundo_game && sound_fundo_game.paused) {
       sound_fundo_game.loop = true;
@@ -185,6 +160,29 @@ Events.on(engine, "beforeUpdate", () => {
   } else {
     sound_fundo_game.pause();
   }
+});
+
+document.addEventListener("keydown", (e) => {
+  keys[e.key] = true;
+  if (e.key == " ") {
+    // Verifica se a tecla liberada é a barra de espaço
+    puedeShot = false;
+  }
+});
+document.addEventListener("keyup", (e) => {
+  keys[e.key] = false;
+  if (e.key == " ") {
+    // Verifica se a tecla liberada é a barra de espaço
+    puedeShot = true;
+  }
+});
+
+var finRay = { x: 0, y: 0 };
+var comienzoRay = { x: 0, y: 0 };
+var puedeShot = false;
+// Atualização
+
+Events.on(engine, "beforeUpdate", () => {
   // Reiniciar o jogo
   if (keys["r"] && player.label == "muerto") {
     console.log("reiniciar juego");
