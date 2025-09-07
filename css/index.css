@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'VT323', monospace;
+}
+
+body {
+    background: url("/assets/backgroundMenu.gif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+
+button{
+    border-radius: 10px;
+    transition: 0.5s;
+    opacity: none;
+    transform: scale(1);
+    background-color: rgba(103, 139, 248, 0.253);
+    margin-top: 10px;
+    padding: 10px 20px;
+    height: 70px;
+    width: 130px;
+    border-radius: 20px;
+    font-size: 20px;
+    color: white;
+}
+button:hover{  
+    height: 60px;
+    width: 120px;
+    border-radius: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+    transition: 0.5s;
+    background-color: rgba(149, 168, 228, 0.555);
+    transform: scale(1.1);
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.808);
+    font-weight: bold;
+    border-color: white;
+}
+body div h1{
+    color:rgba(103, 139, 248, 0.938);
+    text-shadow: 3px 5px rgba(0, 0, 0, 0.575);
+    font-size: 70px;
+    margin-bottom: 20px;
+}
+.desactive{
+    transition: 0.5s;
+    display: none;
+    font-size: 70px;
+    margin-bottom: 20px;
+}
+
+.active{
+    transition: 0.5s;
+    transform: scale(1.1);
+    opacity: 1;
+}
