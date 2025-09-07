@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>IDE Online</h2> 
+    <input type="text" name="code" placeholder="Enter your code here">
+    <button onclick="runCode()">Run</button>
+    <button onclick="document.querySelector('input').value = ''; document.querySelectorAll('h6').forEach(el => el.remove())">Clear</button>
+    <h2>Output:</h2>
+    <script>
+        function runCode() {
+            const codigo = document.querySelector("input").value;
+            try {
+                var result = eval(codigo);
+                // npx tailwindcss init -p
+                // npm install -D tailwindcss@3.4.10 postcss@8.4.41 autoprefixer@10.4.20
+                // npm create vite@5.5.2
+                // ensenar el resultado del codigo executado
+                document.getElementById("output").innerText = result;
+            } catch (error) {
+                var errorText = document.createElement("h6")
+                errorText.innerText = error;
+                document.body.appendChild(errorText);
+            }
+        }
+    </script>
+</body>
+
+</html>

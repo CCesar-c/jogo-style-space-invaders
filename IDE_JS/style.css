@@ -1,0 +1,12 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+input{
+    height: 300px;
+    width: 300px;
+    padding: 30px 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
