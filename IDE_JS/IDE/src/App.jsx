@@ -10,7 +10,8 @@ function App() {
   }
 
   async function runCode() {
-
+    if (count == "") return;
+    if (count.includes("console.log()")) alert("NO se permite este tipo de metodos")
     try {
       var result = eval(count);
       // npx tailwindcss init -p
@@ -19,7 +20,7 @@ function App() {
       // ensenar el resultado del codigo executado
 
     } catch (error) {
-      alert("ERRO \n" + error)
+      alert("ERRO ACHADA\n" + error)
     }
   }
   return (
